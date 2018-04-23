@@ -23,12 +23,12 @@ public class WebRestController {
         return "HELLO WORLD !";
     }
 
-    @PostMapping("/posts")
+    @PostMapping("/api/posts")
     public void savePosts(@RequestBody PostsSaveRequestDto dto) {
         postsRepository.save(dto.toEntity());
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/api/posts")
     public List<Posts> resPosts() {
         return postsRepository.findAll();
     }
