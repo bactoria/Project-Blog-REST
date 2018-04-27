@@ -20,5 +20,4 @@ public class PostsSaveRequestDto {
                     .author(author)
                     .build();
     }
-
 }

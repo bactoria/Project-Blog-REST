@@ -1,6 +1,9 @@
 package com.bactoria.toy1.web;
 
 
+import com.bactoria.toy1.domain.categories.Categories;
+import com.bactoria.toy1.domain.categories.CategoriesRepository;
+import com.bactoria.toy1.domain.categories.CategoriesSaveRequestDto;
 import com.bactoria.toy1.domain.posts.Posts;
 import com.bactoria.toy1.domain.posts.PostsRepository;
 import com.bactoria.toy1.domain.posts.PostsSaveRequestDto;
@@ -17,6 +20,7 @@ import java.util.List;
 public class WebRestController {
 
     private PostsRepository postsRepository;
+    private CategoriesRepository categoriesRepository;
 
     @GetMapping("/hello")
     public String hello() {
@@ -33,5 +37,15 @@ public class WebRestController {
         return postsRepository.findAll();
     }
 
+    @GetMapping("/api/categories")
+    public List<Categories> resCategories() {
+        return categoriesRepository.findAll();
+    }
+
+    @PostMapping("/api/categories")
+    public void savePosts(@RequestBody CategoriesSaveRequestDto dto) {
+        categoriesRepository.save(dto.toEntity());
+    }
 
 }
+

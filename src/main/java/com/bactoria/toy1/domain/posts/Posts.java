@@ -1,15 +1,13 @@
 package com.bactoria.toy1.domain.posts;
 
 import com.bactoria.toy1.domain.BaseTimeEntity;
+import com.bactoria.toy1.domain.categories.Categories;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //lombok
 @Getter //lombok
@@ -20,7 +18,11 @@ public class Posts extends BaseTimeEntity {
     @GeneratedValue //javax.persistence
     private Long id;
 
-    @Column(length = 500, nullable = false) //javax.persistence
+    @ManyToOne
+    @JoinColumn(name = "CATEGORIES_ID")
+    private Categories category;
+
+    @Column(length = 100, nullable = false) //javax.persistence
     private String title;
 
     @Column(columnDefinition = "TEXT", nullable = false) //javax.persistence
