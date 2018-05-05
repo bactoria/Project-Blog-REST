@@ -16,31 +16,34 @@ import java.util.Optional;
 @AllArgsConstructor // 이게 @Autowired 대신 사용가능
 public class WebRestController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
+
     private PostRepository postRepository;
     private CategoryRepository categoryRepository;
     private PostService postService;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "HELLO WORLD !";
-    }
-
     //글 추가
+    @CrossOrigin
     @PostMapping("/api/post")
     public void savePost(@RequestBody PostSaveRequestDto dto) {
+        LOGGER.info("post  /api/post");
         postRepository.save(dto.toEntity());
     }
 
     //글 읽기
+    @CrossOrigin
     @GetMapping("/api/post")
     public List<Post> resPost() {
+        LOGGER.info("get  /api/post");
         return postService.resPosts();
     }
 
     //특정 글 읽기
+    @CrossOrigin
     @GetMapping("/api/post/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
 
+        LOGGER.info("get  /api/post/"+id);
         return postService.resPostsById(id);
     }
 
@@ -50,10 +53,12 @@ public class WebRestController {
     @GetMapping("/api/category/{id}")
     public List<Post> resPostByCategory(@PathVariable Long id) {
 
+        LOGGER.info("get  /api/category/"+id);
         return postRepository.findByCategoryId(id);
     }
 
     //카테고리 추가
+    @CrossOrigin
     @PostMapping("/api/category")
     public void savePost(@RequestBody CategorySaveRequestDto dto) {
 
@@ -61,9 +66,10 @@ public class WebRestController {
     }
 
     //카테고리 목록
+    @CrossOrigin
     @GetMapping("/api/category")
     public List<Category> resCategoryById() {
-
+        LOGGER.info("get  /api/category");
         return categoryRepository.findAll();
     }
 
