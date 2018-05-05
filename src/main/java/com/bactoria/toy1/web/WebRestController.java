@@ -5,6 +5,8 @@ import com.bactoria.toy1.domain.category.CategoryRepository;
 import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.post.*;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +45,8 @@ public class WebRestController {
     }
 
     //특정 카테고리의 글 읽기
+
+    @CrossOrigin
     @GetMapping("/api/category/{id}")
     public List<Post> resPostByCategory(@PathVariable Long id) {
 
