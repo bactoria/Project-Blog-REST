@@ -34,8 +34,8 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-    bucket: myblog-deploy-s3 # S3 버킷
-    region: ap-northeast-2
+    bucket: myblog-s3 # S3 버킷
+    region: ap-northeast-2 # 아시아 태평양 (서울)
     skip_cleanup: true
     acl: public_read
     local_dir: deploy #zip만 추가하기 위해 s3에 넣을 dir을 deploy 폴더로 지정한다.
