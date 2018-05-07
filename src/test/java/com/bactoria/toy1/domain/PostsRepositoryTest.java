@@ -35,7 +35,6 @@ public class PostsRepositoryTest {
         postsRepository.save(Post.builder()
                 .title("제목입니다")
                 .content("내용이다내요오오옹")
-                .author("bactoria@gmail.com")
                 .build());
 
         //when
