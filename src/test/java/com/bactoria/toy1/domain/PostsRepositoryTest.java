@@ -56,7 +56,6 @@ public class PostsRepositoryTest {
         postsRepository.save(Post.builder()
                 .title("타임등록하자")
                 .content("타임내용이다")
-                .author("bactoria@gmail.com")
                 .build());
 
         //when 리스트 뽑아와
