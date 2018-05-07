@@ -22,6 +22,12 @@ public class WebRestController {
     private CategoryRepository categoryRepository;
     private PostService postService;
 
+    //배포자동화 테스트
+    @GetMapping("checkAutoDeploy")
+    public String savePoint(){
+        return "success";
+    }
+
     //글 추가
     @CrossOrigin
     @PostMapping("/api/post")
