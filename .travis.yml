@@ -38,6 +38,7 @@ deploy:
     region: ap-northeast-2
     skip_cleanup: true
     acl: public_read
+    local_dir: deploy #zip만 추가하기 위해 s3에 넣을 dir을 deploy 폴더로 지정한다.
     wait-until-deployed: true
     on:
       repo: bactoria/ToyProject-Blog-REST #Github 주소
