@@ -18,7 +18,6 @@ public class PostSaveRequestDto {
         return Post.builder()
                     .title(title)
                     .content(content)
-                    .author(author)
                     .categoryId(categoryId)
                     .build();
     }

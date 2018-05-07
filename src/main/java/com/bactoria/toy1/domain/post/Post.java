@@ -33,13 +33,10 @@ public class Post extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false) //javax.persistence
     private String content;
 
-    private String author;
-
     @Builder //lombok
-    public Post(String title, String content, String author, Long categoryId) {
+    public Post(String title, String content, Long categoryId) {
         this.title = title;
         this.content = content;
-        this.author = author;
         this.categoryId = categoryId;
     }
 
