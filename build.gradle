@@ -16,7 +16,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.bactoria'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -28,8 +28,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator') //actuator
     compile('org.springframework.boot:spring-boot-starter-data-jpa') //jpa
     compile('org.springframework.boot:spring-boot-starter-web') //web
-    runtime('org.postgresql:postgresql') //postgresql
-    runtime('com.h2database:h2')
+    compile('org.postgresql:postgresql:42.2.2.jre7')
+    //runtime('com.h2database:h2')
     compileOnly('org.projectlombok:lombok') //lombok
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

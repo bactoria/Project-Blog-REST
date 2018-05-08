@@ -7,8 +7,10 @@ import com.bactoria.toy1.domain.post.*;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +23,18 @@ public class WebRestController {
     private PostRepository postRepository;
     private CategoryRepository categoryRepository;
     private PostService postService;
+    private Environment env;
 
-    //배포자동화 테스트
-    @GetMapping("checkAutoDeploy")
-    public String savePoint(){
-        return "success";
+    @GetMapping("/profile")
+    public String getProfile () {
+        return Arrays.stream(env.getActiveProfiles())
+                .findFirst()
+                .orElse("Not Exist");
+    }
+
+    @GetMapping("/")
+    public String index() {
+        return "bactoris's API Server";
     }
 
     //글 추가
