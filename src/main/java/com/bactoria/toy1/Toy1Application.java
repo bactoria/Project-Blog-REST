@@ -10,15 +10,15 @@ package com.bactoria.toy1;
 public class Toy1Application {
 
     //local
-   /* public static final String APPLICATION_LOCATIONS = "spring.config.location="
+  /*  public static final String APPLICATION_LOCATIONS = "spring.config.location="
             + "classpath:application.yml,"
-            + "C:/Users/bactoria/real-application.yml";*/
-
+            + "C:/Users/bactoria/real-application.yml";
+*/
 
     //ec2
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
             + "classpath:application.yml,"
-            + "/app/config/myBlog/real-application.yml";
+            + "/home/ec2-user/app/config/myBlog/real-application.yml";
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(Toy1Application.class)
