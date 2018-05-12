@@ -22,7 +22,8 @@ public class Post extends BaseTimeEntity {
     @Min(value = 1)
     private Long categoryId;
 
-   /* @ManyToOne
+    /*
+    @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 */

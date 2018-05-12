@@ -69,7 +69,7 @@ public class WebRestController {
     public List<Post> resPostByCategory(@PathVariable Long id) {
 
         LOGGER.info("get  /api/category/"+id);
-        return postRepository.findByCategoryId(id);
+        return postRepository.findByCategoryIdOrderByIdDesc(id);
     }
 
     //카테고리 추가
