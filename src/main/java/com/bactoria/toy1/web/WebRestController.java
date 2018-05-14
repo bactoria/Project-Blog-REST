@@ -8,6 +8,10 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -63,13 +67,15 @@ public class WebRestController {
     }
 
     //특정 카테고리의 글 읽기
-
     @CrossOrigin
     @GetMapping("/api/category/{id}")
-    public List<Post> resPostByCategory(@PathVariable Long id) {
+    public Page<Post> resPostByCategory(
+            @PathVariable Long id,
+            @PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable ) {
 
         LOGGER.info("get  /api/category/"+id);
-        return postRepository.findByCategoryIdOrderByIdDesc(id);
+        return postRepository.findByCategoryId(id,pageable);
+        //return postRepository.findByCategoryIdOrderByIdDesc(id);
     }
 
     //카테고리 추가

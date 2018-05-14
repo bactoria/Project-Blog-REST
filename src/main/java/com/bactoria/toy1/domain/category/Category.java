@@ -22,10 +22,10 @@ public class Category {
     @Column(length = 30, nullable = false, unique = true) //javax.persistence
     private String name;
 
-/*
-    @OneToMany(mappedBy = "category")
-    private List<Post> postList = new ArrayList<>();
-*/
+
+    /*@OneToMany(mappedBy = "category")
+    private List<Post> postList = new ArrayList<>();*/
+
 
     @Builder
     Category(String name) {
