@@ -20,5 +20,6 @@ public class PostService {
 
     public Optional<Post> resPostsById(Long id) {return postRepository.findById(id); }
 
-
+    //명명 규칙 모르겠음.. 수정필요
+    public List<Object[]> resCSR( ) {return postRepository.findCSR();}
 }

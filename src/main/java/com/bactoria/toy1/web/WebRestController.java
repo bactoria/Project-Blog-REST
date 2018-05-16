@@ -41,7 +41,6 @@ public class WebRestController {
         return "bactoris's API Server";
     }
 
-    //글 추가
     @CrossOrigin
     @PostMapping("/api/post")
     public void savePost(@RequestBody PostSaveRequestDto dto) {
@@ -49,7 +48,6 @@ public class WebRestController {
         postRepository.save(dto.toEntity());
     }
 
-    //글 읽기
     @CrossOrigin
     @GetMapping("/api/post")
     public List<Post> resPost() {
@@ -57,7 +55,6 @@ public class WebRestController {
         return postService.resPosts();
     }
 
-    //특정 글 읽기
     @CrossOrigin
     @GetMapping("/api/post/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
@@ -66,19 +63,30 @@ public class WebRestController {
         return postService.resPostsById(id);
     }
 
-    //특정 카테고리의 글 읽기
     @CrossOrigin
     @GetMapping("/api/category/{id}")
-    public Page<Post> resPostByCategory(
+    public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
             @PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable ) {
 
         LOGGER.info("get  /api/category/"+id);
-        return postRepository.findByCategoryId(id,pageable);
-        //return postRepository.findByCategoryIdOrderByIdDesc(id);
+        return postRepository.findByCategoryIdMin(id,pageable);
     }
 
-    //카테고리 추가
+    @CrossOrigin
+    @GetMapping("/api/csr")
+    public List<Object[]> resCSR () {
+        LOGGER.info("get  /api/csr");
+        return postRepository.findCSR();
+    }
+
+    @CrossOrigin
+    @GetMapping("/api/category")
+    public List<Category> resCategory() {
+        LOGGER.info("get  /api/category");
+        return categoryRepository.findAll();
+    }
+
     @CrossOrigin
     @PostMapping("/api/category")
     public void savePost(@RequestBody CategorySaveRequestDto dto) {
@@ -86,13 +94,11 @@ public class WebRestController {
         categoryRepository.save(dto.toEntity());
     }
 
-    //카테고리 목록
-    @CrossOrigin
-    @GetMapping("/api/category")
-    public List<Category> resCategoryById() {
-        LOGGER.info("get  /api/category");
-        return categoryRepository.findAll();
-    }
 
+    @CrossOrigin
+    @GetMapping("/api/search")
+    public String resPostBySearch(@RequestParam("searchData") String data) {
+        return data;
+    }
 }
 
