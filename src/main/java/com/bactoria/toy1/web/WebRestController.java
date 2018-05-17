@@ -94,11 +94,20 @@ public class WebRestController {
         categoryRepository.save(dto.toEntity());
     }
 
-
+/*
     @CrossOrigin
     @GetMapping("/api/search")
     public String resPostBySearch(@RequestParam("searchData") String data) {
+        LOGGER.info("get  /api/search" + "searchData : " + data);
         return data;
+    }
+    */
+
+    @CrossOrigin
+    @GetMapping("/api/search/{searchData}")
+    public List<Object[]> resPostBySearch(@PathVariable String searchData) {
+        LOGGER.info("get  /api/search" + "  searchData : " + searchData);
+        return postRepository.findBySearchData(searchData.trim());
     }
 }
 

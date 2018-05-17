@@ -21,4 +21,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query (value = "select post.id, post.categoryId, post.title, post.createdDate from Post post")
     List<Object[]> findCSR();
 
+    @Query (value = "select post.id, post.categoryId, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
+    List<Object[]> findBySearchData(String SearchData);
+
+
 }
