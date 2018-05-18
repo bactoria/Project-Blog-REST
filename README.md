@@ -4,4 +4,4 @@
 
 #### `FrontEnd Repository`
 
-https://github.com/bactoria/tempRepo
+https://github.com/bactoria/ToyProject-Blog-Nuxt
