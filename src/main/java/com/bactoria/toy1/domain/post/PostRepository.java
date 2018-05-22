@@ -14,15 +14,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     //List<Post> findByCategoryId(Long categoryId);
     //List<Post> findByCategoryIdOrderByIdDesc(Long categoryId);
 
-    @Query (value = "select post.id, post.categoryId, post.title, post.createdDate from Post post where post.categoryId = ?1")
+    @Query (value = "select post.id, post.category, post.title, post.createdDate from Post post where post.category.id = ?1")
     Page<Object[]> findByCategoryIdMin(Long categoryId, Pageable pabeable);
 
 
-    @Query (value = "select post.id, post.categoryId, post.title, post.createdDate from Post post")
+    @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post")
     List<Object[]> findCSR();
 
-    @Query (value = "select post.id, post.categoryId, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
+    @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
     List<Object[]> findBySearchData(String SearchData);
-
 
 }

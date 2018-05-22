@@ -2,6 +2,10 @@ package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.BaseTimeEntity;
 import com.bactoria.toy1.domain.category.Category;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,14 +23,12 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue //javax.persistence
     private Long id;
 
-    @Min(value = 1)
-    private Long categoryId;
+    //@Min(value = 1)
+    //private Long categoryId;
 
-
-/*    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;*/
-
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(length = 100, nullable = false) //javax.persistence
     private String title;
@@ -35,11 +37,15 @@ public class Post extends BaseTimeEntity {
     private String content;
 
     @Builder //lombok
-    public Post(String title, String content, Long categoryId) {
+    public Post(String title, String content, Category category) {
         this.title = title;
         this.content = content;
-        this.categoryId = categoryId;
+        this.category = category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+
     }
 
 }
-

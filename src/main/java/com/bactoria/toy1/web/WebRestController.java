@@ -3,6 +3,7 @@ package com.bactoria.toy1.web;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryRepository;
 import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
+import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.*;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -25,8 +26,8 @@ public class WebRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
 
     private PostRepository postRepository;
-    private CategoryRepository categoryRepository;
     private PostService postService;
+    private CategoryService categoryService;
     private Environment env;
 
     @GetMapping("/profile")
@@ -45,7 +46,7 @@ public class WebRestController {
     @PostMapping("/api/post")
     public void savePost(@RequestBody PostSaveRequestDto dto) {
         LOGGER.info("post  /api/post");
-        postRepository.save(dto.toEntity());
+        postService.savePost(dto);
     }
 
     @CrossOrigin
@@ -70,7 +71,7 @@ public class WebRestController {
             @PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable ) {
 
         LOGGER.info("get  /api/category/"+id);
-        return postRepository.findByCategoryIdMin(id,pageable);
+        return postService.resPostsByCategory(id,pageable);
     }
 
     @CrossOrigin
@@ -84,30 +85,28 @@ public class WebRestController {
     @GetMapping("/api/category")
     public List<Category> resCategory() {
         LOGGER.info("get  /api/category");
-        return categoryRepository.findAll();
+        return categoryService.resCategory();
     }
 
     @CrossOrigin
     @PostMapping("/api/category")
-    public void savePost(@RequestBody CategorySaveRequestDto dto) {
-
-        categoryRepository.save(dto.toEntity());
+    public void saveCategory(@RequestBody CategorySaveRequestDto dto) {
+        categoryService.saveCategory(dto);
     }
 
-/*
     @CrossOrigin
     @GetMapping("/api/search")
     public String resPostBySearch(@RequestParam("searchData") String data) {
         LOGGER.info("get  /api/search" + "searchData : " + data);
         return data;
     }
-    */
+
 
     @CrossOrigin
     @GetMapping("/api/search/{searchData}")
-    public List<Object[]> resPostBySearch(@PathVariable String searchData) {
+    public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
         LOGGER.info("get  /api/search" + "  searchData : " + searchData);
-        return postRepository.findBySearchData(searchData.trim());
+        return postService.resPostBySearchData(searchData.trim());
     }
 }
 

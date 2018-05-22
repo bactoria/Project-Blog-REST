@@ -1,6 +1,9 @@
 package com.bactoria.toy1.domain.post;
 
+import com.bactoria.toy1.domain.category.CategoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -14,6 +17,7 @@ public class PostService {
 
     private PostRepository postRepository;
 
+
     public List<Post> resPosts() {
         return postRepository.findAll();
     }
@@ -22,4 +26,21 @@ public class PostService {
 
     //명명 규칙 모르겠음.. 수정필요
     public List<Object[]> resCSR( ) {return postRepository.findCSR();}
+
+    public Page<Object[]> resPostsByCategory(Long id, Pageable pageable) {
+        return postRepository.findByCategoryIdMin(id,pageable);
+    }
+
+
+    public List<Object[]> resPostBySearchData (String searchData) {
+        return postRepository.findBySearchData(searchData.trim());
+    }
+
+    public void savePost (PostSaveRequestDto dto) {
+        postRepository.save(dto.toEntity());
+    }
+
+
+
 }
+

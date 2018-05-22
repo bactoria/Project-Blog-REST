@@ -1,8 +1,8 @@
 package com.bactoria.toy1;
 
-        import org.springframework.boot.autoconfigure.SpringBootApplication;
-        import org.springframework.boot.builder.SpringApplicationBuilder;
-        import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 
 @EnableJpaAuditing //JPA Auditing 활성화
@@ -12,8 +12,9 @@ public class Toy1Application {
 /*
     //local
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:application.yml";
-            + ", C:/Users/bactoria/real-application.yml";
+            + "classpath:../application.yml";
+
+            //+ ", C:/Users/bactoria/real-application.yml";
 */
 
     //ec2

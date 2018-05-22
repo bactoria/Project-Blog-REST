@@ -1,6 +1,9 @@
 package com.bactoria.toy1.domain.category;
 
 import com.bactoria.toy1.domain.post.Post;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,14 +25,10 @@ public class Category {
     @Column(length = 30, nullable = false, unique = true) //javax.persistence
     private String name;
 
-
-    /*@OneToMany(mappedBy = "category")
-    private List<Post> postList = new ArrayList<>();*/
-
-
     @Builder
     Category(String name) {
         this.name = name;
     }
+
 
 }

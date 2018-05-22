@@ -1,5 +1,6 @@
 package com.bactoria.toy1.domain.post;
 
+import com.bactoria.toy1.domain.category.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,13 +14,13 @@ public class PostSaveRequestDto {
 
     private String title;
     private String content;
-    private Long categoryId;
+    private Category category;
 
     public Post toEntity() {
         return Post.builder()
                     .title(title)
                     .content(content)
-                    .categoryId(categoryId)
+                    .category(category)
                     .build();
     }
 
