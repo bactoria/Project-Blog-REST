@@ -1,7 +1,6 @@
 package com.bactoria.toy1.web;
 
 import com.bactoria.toy1.domain.category.Category;
-import com.bactoria.toy1.domain.category.CategoryRepository;
 import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.*;
@@ -43,13 +42,6 @@ public class WebRestController {
     }
 
     @CrossOrigin
-    @PostMapping("/api/post")
-    public void savePost(@RequestBody PostSaveRequestDto dto) {
-        LOGGER.info("post  /api/post");
-        postService.savePost(dto);
-    }
-
-    @CrossOrigin
     @GetMapping("/api/post")
     public List<Post> resPost() {
         LOGGER.info("get  /api/post");
@@ -86,12 +78,6 @@ public class WebRestController {
     public List<Category> resCategory() {
         LOGGER.info("get  /api/category");
         return categoryService.resCategory();
-    }
-
-    @CrossOrigin
-    @PostMapping("/api/category")
-    public void saveCategory(@RequestBody CategorySaveRequestDto dto) {
-        categoryService.saveCategory(dto);
     }
 
     @CrossOrigin
