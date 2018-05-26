@@ -1,7 +1,6 @@
 package com.bactoria.toy1.web;
 
 import com.bactoria.toy1.domain.category.Category;
-import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.*;
 import lombok.AllArgsConstructor;

@@ -41,6 +41,13 @@ public class PostService {
     }
 
 
+    public void modifyPost (Long id, PostModifyRequestDto dto) {
+        postRepository.modifyPost(id,dto.getTitle(),dto.getContent(),dto.getCategory());
+    }
+
+    public void deletePost (Long id) {
+        postRepository.deleteById(id);
+    }
 
 }
 
