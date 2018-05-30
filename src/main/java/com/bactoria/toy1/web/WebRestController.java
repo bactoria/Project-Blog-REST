@@ -40,29 +40,42 @@ public class WebRestController {
         return "bactoris's API Server";
     }
 
+
+    //POST
+
     @CrossOrigin
-    @GetMapping("/api/post")
+    @GetMapping("/api/posts")
     public List<Post> resPost() {
-        LOGGER.info("get  /api/post");
+        LOGGER.info("GET  /api/posts");
         return postService.resPosts();
     }
 
     @CrossOrigin
-    @GetMapping("/api/post/{id}")
+    @GetMapping("/api/posts/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
 
-        LOGGER.info("get  /api/post/"+id);
+        LOGGER.info("GET  /api/posts/"+id);
         return postService.resPostsById(id);
     }
 
+
+    //CATEGORY
+
     @CrossOrigin
-    @GetMapping("/api/category/{id}")
+    @GetMapping("/api/categories/{id}")
     public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
             @PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable ) {
 
-        LOGGER.info("get  /api/category/"+id);
+        LOGGER.info("GET  /api/categories/"+id);
         return postService.resPostsByCategory(id,pageable);
+    }
+
+    @CrossOrigin
+    @GetMapping("/api/categories")
+    public List<Category> resCategory() {
+        LOGGER.info("GET  /api/categories");
+        return categoryService.resCategory();
     }
 
     @CrossOrigin
@@ -73,24 +86,16 @@ public class WebRestController {
     }
 
     @CrossOrigin
-    @GetMapping("/api/category")
-    public List<Category> resCategory() {
-        LOGGER.info("get  /api/category");
-        return categoryService.resCategory();
-    }
-
-    @CrossOrigin
     @GetMapping("/api/search")
     public String resPostBySearch(@RequestParam("searchData") String data) {
-        LOGGER.info("get  /api/search" + "searchData : " + data);
+        LOGGER.info("GET  /api/search" + "searchData : " + data);
         return data;
     }
-
 
     @CrossOrigin
     @GetMapping("/api/search/{searchData}")
     public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
-        LOGGER.info("get  /api/search" + "  searchData : " + searchData);
+        LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
         return postService.resPostBySearchData(searchData.trim());
     }
 }

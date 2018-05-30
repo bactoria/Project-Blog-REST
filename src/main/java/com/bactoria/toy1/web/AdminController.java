@@ -19,44 +19,36 @@ public class AdminController {
     private PostService postService;
     private CategoryService categoryService;
 
+    //POST
+
     @CrossOrigin
-    @PostMapping("/admin/newPost")
+    @PostMapping("/api/posts")
     public void savePost(@RequestBody PostSaveRequestDto dto) {
-        LOGGER.info("post  /admin/newPost");
+        LOGGER.info("POST  /api/posts");
         postService.savePost(dto);
     }
 
     @CrossOrigin
-    @PostMapping("/admin/newCategory")
-    public void saveCategory(@RequestBody CategorySaveRequestDto dto) {
-        categoryService.saveCategory(dto);
-    }
-
-    @CrossOrigin
-    @GetMapping("/admin/post/{id}")
-    public Optional<Post> resPostById(@PathVariable Long id) {
-
-        LOGGER.info("get  /admin/post/"+id);
-        return postService.resPostsById(id);
-    }
-
-
-    //Modify
-
-    @CrossOrigin
-    @PostMapping("/admin/modify/post/{id}")
+    @PostMapping("/api/posts/{id}")
     public void modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto dto) {
-        LOGGER.info("post  /admin/modify/Post/" + id);
+        LOGGER.info("POST  /api/posts/" + id);
         postService.modifyPost(id, dto);
     }
 
-
-    //Delete
     @CrossOrigin
-    @DeleteMapping("/admin/delete/post/{id}")
+    @DeleteMapping("/api/posts/{id}")
     public void deletePost(@PathVariable Long id) {
-        LOGGER.info("post /admin/delete/post/" + id);
+        LOGGER.info("DELETE /api/posts/" + id);
         postService.deletePost(id);
+    }
+
+    //CATEGORY
+
+    @CrossOrigin
+    @PostMapping("/api/categories")
+    public void saveCategory(@RequestBody CategorySaveRequestDto dto) {
+        LOGGER.info("POST /api/categories");
+        categoryService.saveCategory(dto);
     }
 
 }
