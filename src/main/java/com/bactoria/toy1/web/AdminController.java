@@ -51,5 +51,12 @@ public class AdminController {
         categoryService.saveCategory(dto);
     }
 
+    @CrossOrigin
+    @DeleteMapping("/api/categories/{id}")
+    public void deleteCategory(@PathVariable Long id) {
+        LOGGER.info("DELETE /api/categories/" + id);
+        categoryService.deleteCategory(id);
+    }
+
 }
 
