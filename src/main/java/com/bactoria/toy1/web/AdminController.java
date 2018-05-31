@@ -29,9 +29,9 @@ public class AdminController {
     }
 
     @CrossOrigin
-    @PostMapping("/api/posts/{id}")
+    @PutMapping("/api/posts/{id}")
     public void modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto dto) {
-        LOGGER.info("POST  /api/posts/" + id);
+        LOGGER.info("PUT  /api/posts/" + id);
         postService.modifyPost(id, dto);
     }
 
