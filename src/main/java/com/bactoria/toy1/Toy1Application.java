@@ -11,12 +11,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class Toy1Application {
 
     //local
+/*
 
     public static void main(String[] args) throws Exception{
         SpringApplication.run(Toy1Application.class,args);
     }
+*/
 
-/*
     //ec2d
 
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
@@ -29,6 +30,5 @@ public class Toy1Application {
                 .properties(APPLICATION_LOCATIONS)
                 .run(args);
     }
-    */
 
 }
