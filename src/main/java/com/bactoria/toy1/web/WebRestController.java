@@ -62,6 +62,13 @@ public class WebRestController {
     //CATEGORY
 
     @CrossOrigin
+    @GetMapping("/api/categories")
+    public List<Category> resCategory() {
+        LOGGER.info("GET  /api/categories");
+        return categoryService.resCategory();
+    }
+
+    @CrossOrigin
     @GetMapping("/api/categories/{id}")
     public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
@@ -69,13 +76,6 @@ public class WebRestController {
 
         LOGGER.info("GET  /api/categories/"+id);
         return postService.resPostsByCategory(id,pageable);
-    }
-
-    @CrossOrigin
-    @GetMapping("/api/categories")
-    public List<Category> resCategory() {
-        LOGGER.info("GET  /api/categories");
-        return categoryService.resCategory();
     }
 
     @CrossOrigin

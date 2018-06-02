@@ -1,5 +1,6 @@
 package com.bactoria.toy1;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -9,15 +10,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class Toy1Application {
 
-/*
     //local
-    public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:../application.yml";
 
-            //+ ", C:/Users/bactoria/real-application.yml";
-*/
+    public static void main(String[] args) throws Exception{
+        SpringApplication.run(Toy1Application.class,args);
+    }
 
-    //ec2
+/*
+    //ec2d
 
     public static final String APPLICATION_LOCATIONS = "spring.config.location="
             + "classpath:application.yml,"
@@ -29,4 +29,6 @@ public class Toy1Application {
                 .properties(APPLICATION_LOCATIONS)
                 .run(args);
     }
+    */
+
 }
