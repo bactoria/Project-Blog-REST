@@ -45,9 +45,9 @@ public class WebRestController {
 
     @CrossOrigin
     @GetMapping("/api/posts")
-    public List<Post> resPost() {
+    public Page<Object[]> resPost(@PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
-        return postService.resPosts();
+        return postService.resPostsMin(pageable);
     }
 
     @CrossOrigin

@@ -31,6 +31,9 @@ public class PostService {
         return postRepository.findByCategoryIdMin(id,pageable);
     }
 
+    public Page<Object[]> resPostsMin(Pageable pageable) {
+        return postRepository.findMin(pageable);
+    }
 
     public List<Object[]> resPostBySearchData (String searchData) {
         return postRepository.findBySearchData(searchData.trim());
@@ -48,6 +51,7 @@ public class PostService {
     public void deletePost (Long id) {
         postRepository.deleteById(id);
     }
+
 
 }
 
