@@ -29,7 +29,7 @@ public class WebRestController {
     private Environment env;
 
     @GetMapping("/profile")
-    public String getProfile () {
+    public String getProfile() {
         return Arrays.stream(env.getActiveProfiles())
                 .findFirst()
                 .orElse("Not Exist");
@@ -45,7 +45,7 @@ public class WebRestController {
 
     @CrossOrigin
     @GetMapping("/api/posts")
-    public Page<Object[]> resPost(@PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable) {
+    public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
         return postService.resPostsMin(pageable);
     }
@@ -54,7 +54,7 @@ public class WebRestController {
     @GetMapping("/api/posts/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
 
-        LOGGER.info("GET  /api/posts/"+id);
+        LOGGER.info("GET  /api/posts/" + id);
         return postService.resPostsById(id);
     }
 
@@ -69,18 +69,26 @@ public class WebRestController {
     }
 
     @CrossOrigin
-    @GetMapping("/api/categories/{id}")
+    @GetMapping("/api/categories/{id}/posts")
     public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
-            @PageableDefault( sort = {"id"}, direction= Sort.Direction.DESC, size = 10 ) Pageable pageable ) {
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
 
-        LOGGER.info("GET  /api/categories/"+id);
-        return postService.resPostsByCategory(id,pageable);
+        LOGGER.info("GET  /api/categories/" + id + "posts");
+        return postService.resPostsByCategory(id, pageable);
+    }
+
+    @CrossOrigin
+    @GetMapping("/api/categories/{id}")
+    public Category resCategoryById(
+            @PathVariable Long id ) {
+        LOGGER.info("GET  /api/categories/" + id);
+        return categoryService.resCategoryById(id);
     }
 
     @CrossOrigin
     @GetMapping("/api/csr")
-    public List<Object[]> resCSR () {
+    public List<Object[]> resCSR() {
         LOGGER.info("get  /api/csr");
         return postRepository.findCSR();
     }

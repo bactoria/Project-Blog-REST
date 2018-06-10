@@ -11,18 +11,21 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-        private CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
-        public List<Category> resCategory() {
-            return categoryRepository.findAll();
-        }
+    public List<Category> resCategory() {
+        return categoryRepository.findAll();
+    }
 
-        public void saveCategory (CategorySaveRequestDto dto) {
-            categoryRepository.save(dto.toEntity());
-        }
+    public void saveCategory(CategorySaveRequestDto dto) {
+        categoryRepository.save(dto.toEntity());
+    }
 
-        public void deleteCategory (Long id) {
-            categoryRepository.deleteById(id);
-        }
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
+    }
 
+    public Category resCategoryById(Long id) {
+        return categoryRepository.findById(id).orElse(new Category());
+    }
 }
