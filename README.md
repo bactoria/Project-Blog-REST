@@ -1,6 +1,7 @@
 # Rest API for [Bactoria.me](https://bactoria.me)
 
 [![Build Status](https://travis-ci.org/bactoria/ToyProject-Blog-REST.svg?branch=master)](https://travis-ci.org/bactoria/ToyProject-Blog-REST)
+[![Coverage Status](https://coveralls.io/repos/github/bactoria/ToyProject-Blog-REST/badge.svg?branch=master)](https://coveralls.io/github/bactoria/ToyProject-Blog-REST?branch=master)
 
 This is Rest API for bactoria.me
 
