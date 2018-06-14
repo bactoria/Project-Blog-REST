@@ -50,12 +50,9 @@ deploy:
       repo: bactoria/ToyProject-Blog-REST #Github 주소
       branch: master
 
-# CI 실행 완료시 메일로 알람
+# CI 실행 완료시 텔레그램으로 알람
 notifications:
-  email:
-    recipients:
-       - bactoria@gmail.com
-
+  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
 
 after_success:
 - ./gradlew jacocoTestReport coveralls
