@@ -55,3 +55,7 @@ notifications:
   email:
     recipients:
        - bactoria@gmail.com
+
+
+after_success:
+- ./gradlew jacocoTestReport coveralls
