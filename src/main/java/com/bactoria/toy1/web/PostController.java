@@ -19,20 +19,19 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin
 public class PostController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
 
     private PostService postService;
 
-    @CrossOrigin
     @GetMapping("/api/posts")
     public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
         return postService.resPostsMin(pageable);
     }
 
-    @CrossOrigin
     @GetMapping("/api/posts/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
 
@@ -40,7 +39,6 @@ public class PostController {
         return postService.resPostsById(id);
     }
 
-    @CrossOrigin
     @GetMapping("/api/posts/categories/{id}")
     public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
@@ -50,7 +48,6 @@ public class PostController {
         return postService.resPostsByCategory(id, pageable);
     }
 
-    @CrossOrigin
     @GetMapping("/api/posts/search/{searchData}")
     public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
