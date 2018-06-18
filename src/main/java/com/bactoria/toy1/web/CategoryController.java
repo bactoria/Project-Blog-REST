@@ -36,16 +36,6 @@ public class CategoryController {
     }
 
     @CrossOrigin
-    @GetMapping("/api/categories/{id}/posts")
-    public Page<Object[]> resPostsByCategory(
-            @PathVariable Long id,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
-
-        LOGGER.info("GET  /api/categories/" + id + "posts");
-        return postService.resPostsByCategory(id, pageable);
-    }
-
-    @CrossOrigin
     @GetMapping("/api/categories/{id}")
     public Category resCategoryById(
             @PathVariable Long id ) {

@@ -41,6 +41,16 @@ public class PostController {
     }
 
     @CrossOrigin
+    @GetMapping("/api/posts/categories/{id}")
+    public Page<Object[]> resPostsByCategory(
+            @PathVariable Long id,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
+
+        LOGGER.info("GET  /api/posts/categories/" + id);
+        return postService.resPostsByCategory(id, pageable);
+    }
+
+    @CrossOrigin
     @GetMapping("/api/posts/search/{searchData}")
     public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
