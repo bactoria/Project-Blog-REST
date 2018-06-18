@@ -41,7 +41,7 @@ public class PostController {
     }
 
     @CrossOrigin
-    @GetMapping("/api/search/{searchData}")
+    @GetMapping("/api/posts/search/{searchData}")
     public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
         return postService.resPostBySearchData(searchData.trim());
