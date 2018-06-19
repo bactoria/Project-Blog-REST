@@ -2,7 +2,6 @@ package com.bactoria.toy1.web;
 
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryService;
-import com.bactoria.toy1.domain.post.PostService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,6 @@ public class CategoryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
 
-    private PostService postService;
     private CategoryService categoryService;
 
     @GetMapping("/api/categories")
