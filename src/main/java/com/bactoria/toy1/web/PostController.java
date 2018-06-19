@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,26 +17,27 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @CrossOrigin
+@RequestMapping("/api/posts")
 public class PostController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
 
     private PostService postService;
 
-    @GetMapping("/api/posts")
+    @GetMapping // == @GetMapping("") != @GetMapping("/")
     public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
         return postService.resPostsMin(pageable);
     }
 
-    @GetMapping("/api/posts/{id}")
+    @GetMapping("/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
 
         LOGGER.info("GET  /api/posts/" + id);
         return postService.resPostsById(id);
     }
 
-    @GetMapping("/api/posts/categories/{id}")
+    @GetMapping("/categories/{id}")
     public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
@@ -48,7 +46,7 @@ public class PostController {
         return postService.resPostsByCategory(id, pageable);
     }
 
-    @GetMapping("/api/posts/search/{searchData}")
+    @GetMapping("/search/{searchData}")
     public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
         return postService.resPostBySearchData(searchData.trim());
