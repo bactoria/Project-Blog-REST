@@ -17,8 +17,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public void saveCategory(CategorySaveRequestDto dto) {
-        categoryRepository.save(dto.toEntity());
+    public Category saveCategory(CategorySaveRequestDto dto) {
+        Category categoryDto = dto.toEntity();
+        categoryRepository.save(categoryDto);
+        return categoryDto;
     }
 
     public void deleteCategory(Long id) {
