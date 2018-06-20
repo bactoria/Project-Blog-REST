@@ -1,5 +1,6 @@
 package com.bactoria.toy1.web;
 
+import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.*;
@@ -46,9 +47,9 @@ public class AdminController {
 
     @CrossOrigin
     @PostMapping("/api/categories")
-    public void saveCategory(@RequestBody CategorySaveRequestDto dto) {
+    public Category saveCategory(@RequestBody CategorySaveRequestDto dto) {
         LOGGER.info("POST /api/categories");
-        categoryService.saveCategory(dto);
+        return categoryService.saveCategory(dto);
     }
 
     @CrossOrigin
