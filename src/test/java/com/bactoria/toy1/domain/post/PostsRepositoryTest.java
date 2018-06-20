@@ -1,4 +1,4 @@
-package com.bactoria.toy1.domain;
+package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryRepository;
