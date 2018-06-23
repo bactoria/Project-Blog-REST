@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor // 이게 @Autowired 대신 사용가능
+@CrossOrigin
 public class AdminController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
@@ -22,21 +23,18 @@ public class AdminController {
 
     //POST
 
-    @CrossOrigin
     @PostMapping("/api/posts")
     public void savePost(@RequestBody PostSaveRequestDto dto) {
         LOGGER.info("POST  /api/posts");
         postService.savePost(dto);
     }
 
-    @CrossOrigin
     @PutMapping("/api/posts/{id}")
     public void modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto dto) {
         LOGGER.info("PUT  /api/posts/" + id);
         postService.modifyPost(id, dto);
     }
 
-    @CrossOrigin
     @DeleteMapping("/api/posts/{id}")
     public void deletePost(@PathVariable Long id) {
         LOGGER.info("DELETE /api/posts/" + id);
@@ -45,14 +43,12 @@ public class AdminController {
 
     //CATEGORY
 
-    @CrossOrigin
     @PostMapping("/api/categories")
     public Category saveCategory(@RequestBody CategorySaveRequestDto dto) {
         LOGGER.info("POST /api/categories");
         return categoryService.saveCategory(dto);
     }
 
-    @CrossOrigin
     @DeleteMapping("/api/categories/{id}")
     public void deleteCategory(@PathVariable Long id) {
         LOGGER.info("DELETE /api/categories/" + id);
