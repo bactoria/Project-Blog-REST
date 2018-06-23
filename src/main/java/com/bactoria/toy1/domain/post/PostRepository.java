@@ -30,7 +30,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Object[]> findBySearchData(String SearchData);
 
     //객체로 받는게 이쓸까? title, content, category를 한번에..
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query(value = "update Post p set p.title = ?2, p.content = ?3, p.category = ?4 where p.id = ?1")
     void modifyPost(Long id, String title, String content, Category category);
 }
