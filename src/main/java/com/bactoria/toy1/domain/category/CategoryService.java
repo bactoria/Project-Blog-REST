@@ -30,4 +30,8 @@ public class CategoryService {
     public Category resCategoryById(Long id) {
         return categoryRepository.findById(id).orElse(new Category());
     }
+
+    public void modifyCategory(Long id, CategoryModifyRequestDTO dto) {
+        categoryRepository.modifyCategory(id, dto.getName());
+    }
 }

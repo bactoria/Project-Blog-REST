@@ -1,6 +1,7 @@
 package com.bactoria.toy1.web;
 
 import com.bactoria.toy1.domain.category.Category;
+import com.bactoria.toy1.domain.category.CategoryModifyRequestDTO;
 import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.*;
@@ -55,5 +56,10 @@ public class AdminController {
         categoryService.deleteCategory(id);
     }
 
+    @PutMapping("/api/categories/{id}")
+    public void ModifyCategory(@PathVariable Long id, @RequestBody CategoryModifyRequestDTO dto) {
+        LOGGER.info("PUT  /api/categories/" + id);
+        categoryService.modifyCategory(id, dto);
+    }
 }
 
