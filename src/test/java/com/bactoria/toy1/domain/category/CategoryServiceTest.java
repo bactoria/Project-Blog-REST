@@ -51,7 +51,7 @@ public class CategoryServiceTest {
     }
 
     @Test
-    public void test001_특정_카테고리를_불러온다 () {
+    public void test002_특정_카테고리를_불러온다 () {
 
         //수정 될 수도 있음.
 
@@ -59,9 +59,9 @@ public class CategoryServiceTest {
                 java.util.Optional.ofNullable(Category.builder().name("카테고리1").build())
         );
 
-        Category category = categoryService.resCategoryById((long)1);
+        Category category = categoryService.resCategoryById(1L);
 
-        verify(categoryRepositoryMock, times(1)).findById((long)1);
+        verify(categoryRepositoryMock, times(1)).findById(1L);
         assertThat(category.getName(), is("카테고리1"));
 
     }

@@ -2,27 +2,26 @@ package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryRepository;
-import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
-import com.bactoria.toy1.domain.post.Post;
-import com.bactoria.toy1.domain.post.PostRepository;
-import com.bactoria.toy1.domain.post.PostSaveRequestDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@ImportResource("test/postRepositoryTest.sql")
+@Transactional
 public class PostsRepositoryTest {
 
     @Autowired
@@ -35,22 +34,23 @@ public class PostsRepositoryTest {
 
     @Before
     public void 카테고리_ID1() {
-        category = categoryRepository.getOne((long)1);
+        categoryRepository.save(category.builder().name("카테고리").build());
+        category = categoryRepository.findAll().get(0);
     }
 
-        @After
+    @After
     public void cleanup(){
         postsRepository.deleteAll();
     }
 
     @Test
-    public void 게시글저장_불러오기() {
+    public void test001_게시글을_불러온다() {
 
 
         //given
         postsRepository.save(Post.builder()
-                .title("제목입니다")
-                .content("내용이다내요오오옹")
+                .title("test001_제목")
+                .content("test001_내용")
                 .category(category)
                 .build());
 
@@ -58,21 +58,21 @@ public class PostsRepositoryTest {
         List<Post> postsList = postsRepository.findAll();
 
         //then
-        Post posts = postsList.get(0);
-        assertThat(posts.getTitle(), is("제목입니다"));
-        assertThat(posts.getContent(), is("내용이다내요오오옹"));
+        Post post = postsList.get(0);
+        assertThat(post.getTitle(), is("test001_제목"));
+        assertThat(post.getContent(), is("test001_내용"));
 
     }
 
     @Test
-    public void BaseTimeEntity_등록() {
+    public void test002_게시글작성시_등록시간과_수정시간이_같이_저장된다() {
         //given  데이터 하나 넣자.
 
         LocalDateTime now = LocalDateTime.now();
 
         postsRepository.save(Post.builder()
-                .title("타임등록하자")
-                .content("타임내용이다")
+                .title("test002_제목")
+                .content("test002_내용")
                 .category(category)
                 .build());
 
@@ -80,10 +80,44 @@ public class PostsRepositoryTest {
         List<Post> postsList = postsRepository.findAll();
 
         //then 리스트 중 하나 선택해서 테스트코드수행
-        Post posts = postsList.get(0);
-        assertTrue(posts.getCreatedDate().isAfter(now));
-        assertTrue(posts.getModifiedDate().isAfter(now));
+        Post post = postsList.get(0);
+        assertTrue(post.getCreatedDate().isAfter(now));
+        assertTrue(post.getModifiedDate().isAfter(now));
 
     }
 
+    @Test
+    public void test003_게시글_제목과_내용을_수정한다() {
+        postsRepository.save(Post.builder()
+                .title("test003_제목")
+                .content("test003_내용")
+                .category(category)
+                .build());
+
+        final Long ID = postsRepository.findAll().get(0).getId();
+
+        postsRepository.modifyPost(ID,"test003_제목_수정","test003_내용_수정",category);
+
+        //when 리스트 뽑아와
+        List<Post> postsList = postsRepository.findAll();
+
+        Post post = postsRepository.findById(ID).get();
+        assertThat(post.getId(), is(ID));
+        assertThat(post.getTitle(), is("test003_제목_수정"));
+        assertThat(post.getContent(), is("test003_내용_수정"));
+
+    }
+
+    @Test
+    public void test004_Post_제목을_검색_한다() {
+
+        postsRepository.save(Post.builder()
+                .title("test004_제목")
+                .content("test004_내용")
+                .category(category)
+                .build());
+
+        assertFalse(postsRepository.findBySearchData("test004_제").isEmpty());
+
+    }
 }
