@@ -1,6 +1,5 @@
 package com.bactoria.toy1.domain.post;
 
-import com.bactoria.toy1.domain.category.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +15,6 @@ import java.util.Optional;
 public class PostService {
 
     private PostRepository postRepository;
-
 
     public List<Post> resPosts() {
         return postRepository.findAll();
