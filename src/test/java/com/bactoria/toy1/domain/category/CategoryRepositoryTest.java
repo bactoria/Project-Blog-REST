@@ -1,24 +1,19 @@
 package com.bactoria.toy1.domain.category;
 
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @DataJpaTest
@@ -29,9 +24,6 @@ public class CategoryRepositoryTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Before //Before 가 맞나 After가 맞나..
     public void 모든_카테고리_삭제한다() {
