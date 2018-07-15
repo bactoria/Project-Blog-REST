@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Repository;
 
-@Setter
 @Getter
 @NoArgsConstructor
 public class CategorySaveRequestDto {
