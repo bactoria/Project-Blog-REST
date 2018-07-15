@@ -1,6 +1,7 @@
 package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class PostSaveRequestDto {
 
     private String title;
@@ -24,4 +24,10 @@ public class PostSaveRequestDto {
                     .build();
     }
 
+    @Builder
+    public PostSaveRequestDto(String title, String content, Category category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 }
