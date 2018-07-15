@@ -2,17 +2,12 @@ package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.BaseTimeEntity;
 import com.bactoria.toy1.domain.category.Category;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //lombok
 @Getter //lombok
