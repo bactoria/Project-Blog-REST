@@ -25,9 +25,9 @@ public class AdminController {
     //POST
 
     @PostMapping("/api/posts")
-    public void savePost(@RequestBody PostSaveRequestDto dto) {
+    public Post savePost(@RequestBody PostSaveRequestDto dto) {
         LOGGER.info("POST  /api/posts");
-        postService.savePost(dto);
+        return postService.savePost(dto);
     }
 
     @PutMapping("/api/posts/{id}")

@@ -34,8 +34,8 @@ public class PostService {
         return postRepository.findBySearchData(searchData.trim());
     }
 
-    public void savePost (PostSaveRequestDto dto) {
-        postRepository.save(dto.toEntity());
+    public Post savePost (PostSaveRequestDto dto) {
+        return postRepository.save(dto.toEntity());
     }
 
 
