@@ -70,17 +70,15 @@ public class PostsRepositoryTest {
 
         LocalDateTime now = LocalDateTime.now();
 
-        postsRepository.save(Post.builder()
+        final long ID = postsRepository.save(Post.builder()
                 .title("test002_제목")
                 .content("test002_내용")
                 .category(category)
-                .build());
-
-        //when 리스트 뽑아와
-        List<Post> postsList = postsRepository.findAll();
+                .build())
+                .getId();
 
         //then 리스트 중 하나 선택해서 테스트코드수행
-        Post post = postsList.get(0);
+        Post post = postsRepository.getOne(ID);
         assertTrue(post.getCreatedDate().isAfter(now));
         assertTrue(post.getModifiedDate().isAfter(now));
 
@@ -88,18 +86,15 @@ public class PostsRepositoryTest {
 
     @Test
     public void test003_게시글_제목과_내용을_수정한다() {
-        postsRepository.save(Post.builder()
+
+        final long ID = postsRepository.save(Post.builder()
                 .title("test003_제목")
                 .content("test003_내용")
                 .category(category)
-                .build());
-
-        final Long ID = postsRepository.findAll().get(0).getId();
+                .build())
+                .getId();
 
         postsRepository.modifyPost(ID,"test003_제목_수정","test003_내용_수정",category);
-
-        //when 리스트 뽑아와
-        List<Post> postsList = postsRepository.findAll();
 
         Post post = postsRepository.findById(ID).get();
         assertThat(post.getId(), is(ID));
