@@ -1,5 +1,6 @@
 package com.bactoria.toy1.domain.post;
 
+import com.bactoria.toy1.domain.category.Category;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,18 @@ public class PostService {
     }
 
     public Post savePost (PostSaveRequestDto dto) {
+
+        //예외 처리
+        String title = dto.getTitle();
+        if (title == null || title.trim().isEmpty()) throw new IllegalArgumentException();
+
+        String content = dto.getContent();
+        if (content == null || content.trim().isEmpty()) throw new IllegalArgumentException();
+
+        Category category = dto.getCategory();
+        if (category == null ) throw new IllegalArgumentException();
+
+        //
         return postRepository.save(dto.toEntity());
     }
 
