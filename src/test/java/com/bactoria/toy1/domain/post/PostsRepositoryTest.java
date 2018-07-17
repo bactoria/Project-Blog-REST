@@ -104,7 +104,7 @@ public class PostsRepositoryTest {
     }
 
     @Test
-    public void test004_Post_제목을_검색_한다() {
+    public void test004_게시글을_검색_한다() {
 
         postsRepository.save(Post.builder()
                 .title("test004_제목")
