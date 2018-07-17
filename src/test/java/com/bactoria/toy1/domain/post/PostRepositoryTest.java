@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 @SpringBootTest
 //@ImportResource("test/postRepositoryTest.sql")
 @Transactional
-public class PostsRepositoryTest {
+public class PostRepositoryTest {
 
     @Autowired
     PostRepository postsRepository;
@@ -115,4 +115,23 @@ public class PostsRepositoryTest {
         assertFalse(postsRepository.findBySearchData("test004_제").isEmpty());
 
     }
+
+    @Test
+    public void test005_게시글을_저장한다() {
+
+        final String TITLE = "test005_제목";
+        final String CONTENT = "test005_내용";
+
+        final long ID = postsRepository.save(Post.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .category(category)
+                .build())
+                .getId();
+
+        assertThat(postsRepository.getOne(ID).getTitle(), is(TITLE));
+
+    }
+
+
 }
