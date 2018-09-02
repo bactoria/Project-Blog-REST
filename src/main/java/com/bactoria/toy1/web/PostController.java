@@ -24,8 +24,10 @@ public class PostController {
 
     private PostService postService;
 
+    private final int PAGE_SIZE = 5;
+
     @GetMapping // == @GetMapping("") != @GetMapping("/")
-    public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
+    public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
         return postService.resPostsMin(pageable);
     }
@@ -40,7 +42,7 @@ public class PostController {
     @GetMapping("/categories/{id}")
     public Page<Object[]> resPostsByCategory(
             @PathVariable Long id,
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
 
         LOGGER.info("GET  /api/posts/categories/" + id);
         return postService.resPostsByCategory(id, pageable);
