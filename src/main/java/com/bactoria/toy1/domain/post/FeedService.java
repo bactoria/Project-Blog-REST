@@ -14,6 +14,6 @@ public class FeedService {
     PostRepository postRepository;
 
     public List<Object[]> resFeed() {
-        return postRepository.findByS();
+        return postRepository.findInFive();
     }
 }
