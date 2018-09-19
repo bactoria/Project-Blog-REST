@@ -13,7 +13,7 @@ public class FeedService {
 
     PostRepository postRepository;
 
-    public List<Post> resFeed() {
-        return postRepository.findAll();
+    public List<Object[]> resFeed() {
+        return postRepository.findByS();
     }
 }
