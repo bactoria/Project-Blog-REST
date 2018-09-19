@@ -23,8 +23,8 @@ public class FeedController {
     FeedService feedService;
 
     @GetMapping("")
-    public List<Object[]> resFeed() {
-        LOGGER.info("GET  /api/posts");
+    public List<Post> resFeed() {
+        LOGGER.info("GET  /api/feed");
         return feedService.resFeed();
     }
 }
