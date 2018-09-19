@@ -13,7 +13,7 @@ public class FeedService {
 
     PostRepository postRepository;
 
-    public List<Object[]> resFeed() {
-        return postRepository.findLimit5();
+    public List<Post> resFeed() {
+        return postRepository.findAll();
     }
 }
