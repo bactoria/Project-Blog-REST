@@ -26,6 +26,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
     List<Object[]> findBySearchData(String SearchData);
 
+
+    @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post where ROWNUM <= 5")
+    List<Post> findLimit5();
+
     //객체로 받는게 이쓸까? title, content, category를 한번에..
     @Modifying(clearAutomatically = true)
     @Query(value = "update Post p set p.title = ?2, p.content = ?3, p.category = ?4 where p.id = ?1")
