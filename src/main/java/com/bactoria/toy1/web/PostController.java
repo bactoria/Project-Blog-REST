@@ -26,7 +26,7 @@ public class PostController {
 
     private final int PAGE_SIZE = 5;
 
-    @GetMapping // == @GetMapping("") != @GetMapping("/")
+    @GetMapping // @GetMapping == @GetMapping("") != @GetMapping("/")
     public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
         return postService.resPostsMin(pageable);
