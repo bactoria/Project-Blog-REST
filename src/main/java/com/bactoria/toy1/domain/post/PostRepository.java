@@ -26,7 +26,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
     List<Object[]> findBySearchData(String SearchData);
 
-    @Query (value = "select post.id, post.category.name, post.title, post.content, post.createdDate from Post post where rownum <= 5")
+    @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post")
     List<Object[]> findInFive();
 
     //객체로 받는게 이쓸까? title, content, category를 한번에..
