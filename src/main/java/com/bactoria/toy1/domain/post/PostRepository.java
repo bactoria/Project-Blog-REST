@@ -27,7 +27,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Object[]> findBySearchData(String SearchData);
 
     @Query (value = "select * from post order by id desc LIMIT 10", nativeQuery = true)
-    List<Object[]> findInFive();
+    List<Post> findInFive();
 
     //객체로 받는게 이쓸까? title, content, category를 한번에..
     @Modifying(clearAutomatically = true)

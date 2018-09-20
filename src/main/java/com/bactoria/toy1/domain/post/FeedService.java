@@ -13,7 +13,7 @@ public class FeedService {
 
     PostRepository postRepository;
 
-    public List<Object[]> resFeed() {
+    public List<Post> resFeed() {
         return postRepository.findInFive();
     }
 }
