@@ -24,7 +24,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Object[]> findMin(Pageable pabeable);
 
     @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
-    List<Object[]> findBySearchData(String SearchData);
+    Page<Object[]> findBySearchData(String SearchData, Pageable pageable);
 
     @Query (value = "select * from post order by id desc LIMIT 10", nativeQuery = true)
     List<Post> findInFive();

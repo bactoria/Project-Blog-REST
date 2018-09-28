@@ -31,8 +31,8 @@ public class PostService {
         return postRepository.findMin(pageable);
     }
 
-    public List<Object[]> resPostBySearchData (String searchData) {
-        return postRepository.findBySearchData(searchData.trim());
+    public Page<Object[]> resPostBySearchData (String searchData, Pageable pageable) {
+        return postRepository.findBySearchData(searchData.trim(), pageable);
     }
 
     public Post savePost (PostSaveRequestDto dto) {

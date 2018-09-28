@@ -49,9 +49,10 @@ public class PostController {
     }
 
     @GetMapping("/search/{searchData}")
-    public List<Object[]> resPostBySearchData(@PathVariable String searchData) {
+    public Page<Object[]> resPostBySearchData(@PathVariable String searchData,
+                                              @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
-        return postService.resPostBySearchData(searchData.trim());
+        return postService.resPostBySearchData(searchData.trim(), pageable);
     }
 
 }
