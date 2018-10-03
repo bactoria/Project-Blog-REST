@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.Base64Utils;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,6 +53,10 @@ public class AdminControllerTest {
     private String jsonStringFromObject(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(object);
+    }
+
+    private String basicAuthentication(String id, String password) {
+        return "Basic " + Base64Utils.encodeToString(new String(id+":"+password).getBytes());
     }
 
     @Test
