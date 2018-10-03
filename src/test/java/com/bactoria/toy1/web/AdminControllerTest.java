@@ -100,7 +100,14 @@ public class AdminControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.title",is("제목")));
+    }
 
+    @Test
+    public void test003_인증하지_않은_사용자가_카테고리_추가_401_Unauthorized() throws Exception {
+
+        //then
+        mockMvc.perform(post("/api/categories"))
+                .andExpect(status().isUnauthorized());
     }
 
 }
