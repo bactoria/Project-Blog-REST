@@ -6,13 +6,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -24,47 +22,58 @@ public class CategoryRepositoryTest {
 
     @Test
     public void test001_카테고리가_비어있다() {
-
+        //given
         List<Category> categories = categoryRepository.findAll();
 
-        assertTrue(categories.isEmpty());
+        //then
+        assertThat(categories).isEmpty();
     }
 
     @Test
     public void test002_카테고리를_생성한다() {
 
-        Category category = new CategorySaveRequestDto("카테고리1").toEntity();
+        //given
+        String categoryName = "카테고리1";
+        Category category = new CategorySaveRequestDto(categoryName).toEntity();
+
+        //when
         categoryRepository.save(category);
 
+        //then
         final Long ID = categoryRepository.findAll().get(0).getId();
-
-        assertThat(categoryRepository.findById(ID).get().getName(), is("카테고리1"));
+        assertThat(categoryRepository.findById(ID).get().getName()).isEqualTo(categoryName);
     }
 
     @Test
     public void test003_카테고리를_삭제한다() {
+
+        //given
         Category category = new CategorySaveRequestDto("test003_카테고리").toEntity();
         categoryRepository.save(category);
 
-        assertFalse(categoryRepository.findAll().isEmpty());
-
+        //when
         categoryRepository.deleteAll();
 
-        assertTrue(categoryRepository.findAll().isEmpty());
-
+        //then
+        assertThat(categoryRepository.findAll()).isEmpty();
     }
 
     @Test
     public void test004_카테고리의_이름을_수정한다() {
         //given
-        Category category = new CategorySaveRequestDto("test004_카테고리").toEntity();
-        categoryRepository.save(category);
 
+        String oldCategoryName = "old_카테고리";
+        String newCategoryName = "new_카테고리";
+
+        Category category = new CategorySaveRequestDto(oldCategoryName).toEntity();
+        categoryRepository.save(category);
         final Long ID = categoryRepository.findAll().get(0).getId();
 
-        categoryRepository.modifyCategory(ID,"category004");
+        //when
+        categoryRepository.modifyCategory(ID, newCategoryName);
 
-        assertThat(categoryRepository.findById(ID).get().getName(), is("category004"));
+        //then
+        assertThat(categoryRepository.findById(ID).get().getName()).isEqualTo(newCategoryName);
     }
 
     @After

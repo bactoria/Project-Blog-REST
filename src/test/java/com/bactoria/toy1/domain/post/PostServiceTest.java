@@ -13,9 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -26,10 +25,10 @@ import static org.mockito.Mockito.verify;
 public class PostServiceTest {
 
     @Mock
-    PostRepository postRepositoryMock;
+    private PostRepository postRepositoryMock;
 
     @InjectMocks
-    PostService postService;
+    private PostService postService;
 
     @Before
     public void setup() {
@@ -49,9 +48,9 @@ public class PostServiceTest {
         List<Post> postList = postService.resPosts();
 
         verify(postRepositoryMock, times(1)).findAll();
-        assertThat(postList, hasSize(2));
-        assertThat(postList.get(0).getTitle(), is("제목1"));
-        assertThat(postList.get(1).getTitle(), is("제목2"));
+        assertThat(postList).hasSize(2);
+        assertThat(postList.get(0).getTitle()).isEqualTo("제목1");
+        assertThat(postList.get(1).getTitle()).isEqualTo("제목2");
 
     }
 
@@ -70,7 +69,6 @@ public class PostServiceTest {
         }
 
         assertThat(exception, instanceOf(IllegalArgumentException.class));
-
     }
 
     @Test
@@ -88,8 +86,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
-
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -107,8 +104,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
-
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -125,8 +121,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
-
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -144,8 +139,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
-
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -163,8 +157,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
-
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -181,8 +174,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
-
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
 }
