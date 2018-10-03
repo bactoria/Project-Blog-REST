@@ -1,6 +1,6 @@
 package com.bactoria.toy1.domain.category;
 
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,6 @@ public class CategoryRepositoryTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
-
-    @Before //Before 가 맞나 After가 맞나..
-    public void 모든_카테고리_삭제한다() {
-        categoryRepository.deleteAll();
-    }
 
     @Test
     public void test001_카테고리가_비어있다() {
@@ -73,4 +67,8 @@ public class CategoryRepositoryTest {
         assertThat(categoryRepository.findById(ID).get().getName(), is("category004"));
     }
 
+    @After
+    public void 모든_카테고리_삭제한다() {
+        categoryRepository.deleteAll();
+    }
 }
