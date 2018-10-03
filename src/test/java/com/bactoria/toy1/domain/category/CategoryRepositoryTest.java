@@ -22,8 +22,6 @@ public class CategoryRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Before //Before 가 맞나 After가 맞나..
     public void 모든_카테고리_삭제한다() {
