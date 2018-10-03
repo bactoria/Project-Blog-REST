@@ -110,4 +110,11 @@ public class AdminControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    public void test004_인증하지_않은_사용자가_게시글_추가_401_Unauthorized() throws Exception {
+
+        //then
+        mockMvc.perform(post("/api/posts"))
+                .andExpect(status().isUnauthorized());
+    }
 }
