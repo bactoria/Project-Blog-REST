@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -69,6 +70,7 @@ public class AdminControllerTest {
         when(categoryServiceMock.saveCategory(any(CategorySaveRequestDto.class))).thenReturn(category);
 
         mockMvc.perform(post("/api/categories")
+                .header(HttpHeaders.AUTHORIZATION, basicAuthentication("testID","testPW"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dtoJson))
 
@@ -91,6 +93,7 @@ public class AdminControllerTest {
         when(postServiceMock.savePost(any(PostSaveRequestDto.class))).thenReturn( Post.builder().title("제목").content("내용").build() );
 
         mockMvc.perform(post("/api/posts")
+                .header(HttpHeaders.AUTHORIZATION, basicAuthentication("testID", "testPW"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(dtoJson))
 
