@@ -1,13 +1,11 @@
 package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -24,18 +22,13 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 public class PostServiceTest {
 
-    @Mock
+    @MockBean
     private PostRepository postRepositoryMock;
 
-    @InjectMocks
+    @Autowired
     private PostService postService;
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    Category category = Category.builder().name("카테고리").build();
+    private Category category = Category.builder().name("카테고리").build();
 
     @Test
     public void test001_모든_게시글들을_불러온다() {
@@ -43,7 +36,7 @@ public class PostServiceTest {
         given(postRepositoryMock.findAll()).willReturn(Arrays.asList(
                 Post.builder().title("제목1").build(),
                 Post.builder().title("제목2").build()
-                ));
+        ));
 
         List<Post> postList = postService.resPosts();
 
@@ -64,7 +57,7 @@ public class PostServiceTest {
                     .content("내용")
                     .category(category)
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -82,7 +75,7 @@ public class PostServiceTest {
                     .content("내용")
                     .category(category)
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -100,7 +93,7 @@ public class PostServiceTest {
                     .content("내용")
                     .category(category)
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -117,7 +110,7 @@ public class PostServiceTest {
                     .title("제목")
                     .category(category)
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -135,7 +128,7 @@ public class PostServiceTest {
                     .content("")
                     .category(category)
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -153,7 +146,7 @@ public class PostServiceTest {
                     .content(" ")
                     .category(category)
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
@@ -170,7 +163,7 @@ public class PostServiceTest {
                     .title("제목")
                     .content("내용")
                     .build());
-        } catch(Exception e) {
+        } catch (Exception e) {
             exception = e;
         }
 
