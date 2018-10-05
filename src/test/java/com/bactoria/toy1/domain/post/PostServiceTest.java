@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -61,7 +59,7 @@ public class PostServiceTest {
             exception = e;
         }
 
-        assertThat(exception, instanceOf(IllegalArgumentException.class));
+        assertThat(exception).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
