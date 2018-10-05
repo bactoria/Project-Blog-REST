@@ -29,13 +29,13 @@ public class FeedService {
         channel.setFeedType("rss_2.0");
         channel.setTitle("Bactoria 블로그");
         channel.setDescription("Bactoria 블로그입니다.");
-        channel.setLink("https://bactoria.me/rss");
+        channel.setLink("https://bactoria.me/api/feed");
         channel.setGenerator("Bactoria Blog");
 
         Image image = new Image();
         image.setTitle("Bactoria 이미지");
         image.setUrl("https://avatars0.githubusercontent.com/u/25674959?s=460&amp;v=4");
-        image.setLink("https://bactoria.me/rss");
+        image.setLink("https://bactoria.me/api/feed");
 
         List<Item> itemList = new ArrayList<>();
 
