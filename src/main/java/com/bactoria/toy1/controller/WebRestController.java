@@ -1,4 +1,4 @@
-package com.bactoria.toy1.web;
+package com.bactoria.toy1.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;

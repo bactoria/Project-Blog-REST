@@ -1,4 +1,4 @@
-package com.bactoria.toy1.web;
+package com.bactoria.toy1.controller;
 
 import com.bactoria.toy1.domain.post.FeedService;
 import com.rometools.rome.feed.rss.Channel;

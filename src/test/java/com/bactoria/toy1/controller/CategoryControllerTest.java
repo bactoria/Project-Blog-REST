@@ -1,4 +1,4 @@
-package com.bactoria.toy1.web;
+package com.bactoria.toy1.controller;
 
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryService;
