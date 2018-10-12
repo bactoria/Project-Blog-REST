@@ -1,16 +1,16 @@
 package com.bactoria.toy1.controller;
 
 import com.bactoria.toy1.domain.category.Category;
-import com.bactoria.toy1.domain.category.CategoryModifyRequestDTO;
-import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.*;
+import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor // 이게 @Autowired 대신 사용가능
@@ -57,7 +57,7 @@ public class AdminController {
     }
 
     @PutMapping("/api/categories/{id}")
-    public void ModifyCategory(@PathVariable Long id, @RequestBody CategoryModifyRequestDTO dto) {
+    public void ModifyCategory(@PathVariable Long id, @RequestBody CategoryModifyRequestDto dto) {
         LOGGER.info("PUT  /api/categories/" + id);
         categoryService.modifyCategory(id, dto);
     }

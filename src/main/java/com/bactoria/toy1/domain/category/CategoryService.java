@@ -1,5 +1,7 @@
 package com.bactoria.toy1.domain.category;
 
+import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,7 @@ public class CategoryService {
         return categoryRepository.findById(id).orElse(new Category());
     }
 
-    public void modifyCategory(Long id, CategoryModifyRequestDTO dto) {
+    public void modifyCategory(Long id, CategoryModifyRequestDto dto) {
         categoryRepository.modifyCategory(id, dto.getName());
     }
 }

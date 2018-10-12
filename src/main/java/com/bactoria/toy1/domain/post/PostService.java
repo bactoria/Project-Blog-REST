@@ -1,6 +1,8 @@
 package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
+import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,5 +1,6 @@
-package com.bactoria.toy1.domain.category;
+package com.bactoria.toy1.domain.category.dto;
 
+import com.bactoria.toy1.domain.category.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +14,12 @@ public class CategorySaveRequestDto {
     private String name;
 
     @Builder
-    CategorySaveRequestDto(String name) {this.name = name;}
+    public CategorySaveRequestDto(String name) {this.name = name;}
 
     public Category toEntity () {
         return Category.builder()
                 .name(this.name)
                 .build();
     }
-
-
 
 }

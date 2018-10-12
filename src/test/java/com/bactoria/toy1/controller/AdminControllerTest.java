@@ -1,10 +1,10 @@
 package com.bactoria.toy1.controller;
 
 import com.bactoria.toy1.domain.category.Category;
-import com.bactoria.toy1.domain.category.CategorySaveRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.post.Post;
-import com.bactoria.toy1.domain.post.PostSaveRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import com.bactoria.toy1.domain.post.PostService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.bactoria.toy1.domain.category;
+package com.bactoria.toy1.domain.category.dto;
 
 
 import lombok.Builder;
@@ -9,12 +9,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class CategoryModifyRequestDTO {
+public class CategoryModifyRequestDto {
 
     private String name;
 
     @Builder
-    public CategoryModifyRequestDTO(String name) {
+    public CategoryModifyRequestDto(String name) {
         this.name = name;
     }
 }

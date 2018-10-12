@@ -1,6 +1,7 @@
-package com.bactoria.toy1.domain.post;
+package com.bactoria.toy1.domain.post.dto;
 
 import com.bactoria.toy1.domain.category.Category;
+import com.bactoria.toy1.domain.post.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,5 +1,6 @@
 package com.bactoria.toy1.domain.category;
 
+import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
