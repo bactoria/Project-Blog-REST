@@ -1,5 +1,7 @@
-package com.bactoria.toy1.domain.post;
+package com.bactoria.toy1.domain.feed;
 
+import com.bactoria.toy1.domain.post.Post;
+import com.bactoria.toy1.domain.post.PostRepository;
 import com.rometools.rome.feed.rss.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
