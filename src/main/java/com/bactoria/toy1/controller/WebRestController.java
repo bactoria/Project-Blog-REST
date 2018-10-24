@@ -11,15 +11,6 @@ import java.util.Arrays;
 @AllArgsConstructor // 이게 @Autowired 대신 사용가능
 public class WebRestController {
 
-    private Environment env;
-
-    @GetMapping("/profile")
-    public String getProfile() {
-        return Arrays.stream(env.getActiveProfiles())
-                .findFirst()
-                .orElse("Not Exist");
-    }
-
     @GetMapping("/")
     public String index() {
         return "bactoris's API Server";
