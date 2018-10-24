@@ -1,5 +1,7 @@
 package com.bactoria.toy1.domain.category;
 
+import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,6 +69,51 @@ public class CategoryServiceTest {
         //then
         verify(categoryRepositoryMock, times(1)).findById(1L);
         assertThat(category.getName()).isEqualTo(categoryName);
+    }
+
+    @Test
+    public void 카테고리를_정상적으로_저장한다() {
+
+        // given
+        final String CATEGORY_NAME = "카테고리";
+
+        CategorySaveRequestDto dto = CategorySaveRequestDto.builder()
+                .name(CATEGORY_NAME)
+                .build();
+
+        // when
+        Category result = categoryService.saveCategory(dto);
+
+        // then
+        assertThat(result.getName()).isEqualTo(CATEGORY_NAME);
+    }
+
+    @Test
+    public void 특정_카테고리를_정상적으로_삭제한다() {
+        // given
+        final Long CATEGORY_ID = 1L;
+
+        // when
+        categoryService.deleteCategory(CATEGORY_ID);
+
+        // then
+        verify(categoryRepositoryMock).deleteById(CATEGORY_ID);
+    }
+
+    @Test
+    public void 특정_카테고리를_정상적으로_수정한다() {
+        // given
+        final String CATEGORY_NAME_MOD = "카테고리_수정";
+        final Long CATEGORY_ID = 1L;
+        CategoryModifyRequestDto dto = CategoryModifyRequestDto.builder()
+                .name(CATEGORY_NAME_MOD)
+                .build();
+
+        // when
+        categoryService.modifyCategory(CATEGORY_ID, dto);
+
+        // then
+        verify(categoryRepositoryMock).modifyCategory(CATEGORY_ID, CATEGORY_NAME_MOD);
     }
 
 }
