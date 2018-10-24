@@ -1,6 +1,6 @@
 package com.bactoria.toy1.controller;
 
-import com.bactoria.toy1.configuration.SecurityConfig;
+import com.bactoria.toy1.configuration.WebSecurityConfig;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.Post;
 import com.bactoria.toy1.domain.post.PostService;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = {PostController.class, SecurityConfig.class})
+@WebMvcTest(value = {PostController.class, WebSecurityConfig.class})
 public class PostControllerTest {
 
     /* issue : https://github.com/spring-projects/spring-boot/issues/12938 */
