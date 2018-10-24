@@ -1,12 +1,14 @@
 package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
+import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -45,6 +47,31 @@ public class PostServiceTest {
         assertThat(postList.get(0).getTitle()).isEqualTo("제목1");
         assertThat(postList.get(1).getTitle()).isEqualTo("제목2");
 
+    }
+
+    @Test
+    public void 특정_게시글을_정상적으로_불러온다() {
+
+        // given
+        final Long ID = 1L;
+
+        // when
+        postService.resPostsById(ID);
+
+        // then
+        verify(postRepositoryMock).findById(ID);
+    }
+
+    @Test
+    public void 게시글을_정상적으로_검색한다() {
+        // given
+        final String SEARCH_DATA = "검색데이터";
+
+        // when
+        postService.resPostBySearchData(SEARCH_DATA, Pageable.unpaged());
+
+        // then
+        verify(postRepositoryMock).findBySearchData(SEARCH_DATA, Pageable.unpaged());
     }
 
     @Test
@@ -171,7 +198,7 @@ public class PostServiceTest {
     }
 
     @Test
-    public void 게시글_정상적으로_저장() {
+    public void 게시글을_정상적으로_저장한다() {
 
         // given
         final String POST_TITLE = "제목";
@@ -200,6 +227,38 @@ public class PostServiceTest {
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo(POST_TITLE);
         assertThat(result.getContent()).isEqualTo(POST_CONTENT);
+    }
+
+    @Test
+    public void 게시글을_정상적으로_수정한다() {
+        // given
+        final Long ID = 1L;
+        final String TITLE = "제목";
+        final String CONTENT = "내용";
+
+        final PostModifyRequestDto DTO = PostModifyRequestDto.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .category(category)
+                .build();
+
+        // when
+        postService.modifyPost(ID, DTO);
+
+        // then
+        verify(postRepositoryMock).modifyPost(ID, TITLE, CONTENT, category);
+    }
+
+    @Test
+    public void 게시글을_정상적으로_삭제한다() {
+        // given
+        final Long ID = 1L;
+
+        // when
+        postService.deletePost(ID);
+
+        // then
+        verify(postRepositoryMock).deleteById(ID);
     }
 
 }
