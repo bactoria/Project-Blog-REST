@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
     private CategoryService categoryService;
 

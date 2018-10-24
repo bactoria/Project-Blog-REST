@@ -20,7 +20,7 @@ import java.util.Optional;
 @RequestMapping("/api/posts")
 public class PostController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostController.class);
 
     private PostService postService;
 

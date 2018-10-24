@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AdminController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
 
     private PostService postService;
     private CategoryService categoryService;

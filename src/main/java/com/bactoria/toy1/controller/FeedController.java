@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/feed")
 public class FeedController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeedController.class);
 
     FeedService feedService;
 
