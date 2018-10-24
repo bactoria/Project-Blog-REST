@@ -1,15 +1,12 @@
 package com.bactoria.toy1.controller;
 
+import com.bactoria.toy1.configuration.SecurityConfig;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -18,16 +15,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+
+@WebMvcTest({CategoryController.class, SecurityConfig.class})
 public class CategoryControllerTest {
 
     @Autowired
@@ -36,44 +33,44 @@ public class CategoryControllerTest {
     @MockBean
     private CategoryService categoryServiceMock;
 
-    private String jsonStringFromObject(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
-
     @Test
     public void test001_모든_카테고리_불러온다() throws Exception {
 
+        // given
         List<Category> categoryList = Arrays.asList(
                 Category.builder().name("카테고리1").build(),
                 Category.builder().name("카테고리2").build()
-                );
+        );
 
-        String category_json = this.jsonStringFromObject(categoryList);
+        given(categoryServiceMock.resCategory()).willReturn(categoryList);
 
-        when(categoryServiceMock.resCategory()).thenReturn(categoryList);
-
+        // when
         mockMvc.perform(get("/api/categories"))
+
+                // then
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name",is("카테고리1")))
-                .andExpect(jsonPath("$[1].name",is("카테고리2")))
-                .andExpect(content().string(equalTo(category_json)));
-     }
+                .andExpect(jsonPath("$[0].name", is("카테고리1")))
+                .andExpect(jsonPath("$[1].name", is("카테고리2")));
+    }
 
     @Test
     public void test002_특정_카테고리_불러온다() throws Exception {
 
-        Category category = Category.builder().name("카테고리1").build();
+        // given
+        final String CATEGORY_NAME = "카테고리3";
 
-        String categoryJson = jsonStringFromObject(category);
+        Category category = Category.builder().name(CATEGORY_NAME).build();
 
-        when(categoryServiceMock.resCategoryById(anyLong())).thenReturn(category);
+        given(categoryServiceMock.resCategoryById(anyLong())).willReturn(category);
 
-        mockMvc.perform(get("/api/categories/{id}",1))
+        // when
+        mockMvc.perform(get("/api/categories/{id}", 1)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+
+                // then
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", Matchers.is("카테고리1")))
-                .andExpect(content().string(equalTo(categoryJson)));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.name", is(CATEGORY_NAME)));
     }
 }

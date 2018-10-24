@@ -1,5 +1,6 @@
 package com.bactoria.toy1.domain.post;
 
+import com.bactoria.toy1.configuration.JpaAuditConfig;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.category.CategoryRepository;
 import org.junit.After;
@@ -8,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
@@ -17,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@Import(JpaAuditConfig.class)
 public class PostRepositoryTest {
 
     @Autowired
@@ -100,21 +104,22 @@ public class PostRepositoryTest {
         assertThat(post.getContent()).isEqualTo(CONTENT);
     }
 
-    /* search 기능에 Pageable 추가하면서, 이 코드는 Error뜸. 그래서 Travis CI에서 빌드가 안됨.. JUnit 공부 좀 더하고 수정해줄게..ㅠ
-
     @Test
     public void test004_게시글을_검색_한다() {
 
+        final String POST_TITLE = "test004_제목";
+        final String POST_CONTENT = "test004_내용";
+        final String SEARCH_DATA = POST_TITLE.substring(5);
+
         postsRepository.save(Post.builder()
-                .title("test004_제목")
-                .content("test004_내용")
+                .title(POST_TITLE)
+                .content(POST_CONTENT)
                 .category(category)
                 .build());
 
-        assertFalse(postsRepository.findBySearchData("test004_제").isEmpty());
-
+        assertThat(postsRepository.findBySearchData(SEARCH_DATA, Pageable.unpaged())).isNotEmpty();
+        assertThat(postsRepository.findBySearchData(SEARCH_DATA, Pageable.unpaged()).getContent().get(0)[2]).isEqualTo(POST_TITLE);
     }
-*/
 
     @Test
     public void test005_게시글을_저장한다() {
@@ -124,15 +129,18 @@ public class PostRepositoryTest {
         final String CONTENT = "test005_내용";
 
         //when
-        final long ID = postsRepository.save(Post.builder()
+        postsRepository.save(Post.builder()
                 .title(TITLE)
                 .content(CONTENT)
                 .category(category)
-                .build())
-                .getId();
+                .build());
+
 
         //then
-        assertThat(postsRepository.getOne(ID).getTitle()).isEqualTo(TITLE);
+        Post post = postsRepository.findAll().get(0);
+        assertThat(post.getTitle()).isEqualTo(TITLE);
+        assertThat(post.getContent()).isEqualTo(CONTENT);
+        assertThat(post.getCategory()).isEqualTo(category);
     }
 
     @After

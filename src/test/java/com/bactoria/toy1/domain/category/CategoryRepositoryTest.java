@@ -7,14 +7,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+@RunWith(SpringRunner.class)
 @DataJpaTest
 public class CategoryRepositoryTest {
 
@@ -23,7 +22,7 @@ public class CategoryRepositoryTest {
 
     @Test
     public void test001_카테고리가_비어있다() {
-        //given
+        //when
         List<Category> categories = categoryRepository.findAll();
 
         //then
@@ -62,7 +61,6 @@ public class CategoryRepositoryTest {
     @Test
     public void test004_카테고리의_이름을_수정한다() {
         //given
-
         String oldCategoryName = "old_카테고리";
         String newCategoryName = "new_카테고리";
 
