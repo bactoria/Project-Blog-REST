@@ -43,5 +43,6 @@ dependencies {
     runtime('com.h2database:h2')
     compileOnly('org.projectlombok:lombok') //lombok
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
     compile group: 'com.rometools', name: 'rome', version: '1.11.0' //rss
 }
