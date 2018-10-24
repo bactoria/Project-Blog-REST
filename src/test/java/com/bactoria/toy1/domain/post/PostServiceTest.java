@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -167,6 +168,38 @@ public class PostServiceTest {
         }
 
         assertThat(exception).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void 게시글_정상적으로_저장() {
+
+        // given
+        final String POST_TITLE = "제목";
+        final String POST_CONTENT = "내용";
+
+        PostSaveRequestDto postDto = PostSaveRequestDto.builder()
+                .title(POST_TITLE)
+                .content(POST_CONTENT)
+                .category(category)
+                .build();
+
+        given(postRepositoryMock.save(any(Post.class))).willReturn(postDto.toEntity());
+
+        // when
+        Exception exception = null;
+        Post result = null;
+
+        try {
+            result = postService.savePost(postDto);
+        } catch (Exception e) {
+            exception = e;
+        }
+
+        // then
+        assertThat(exception).isNull();
+        assertThat(result).isNotNull();
+        assertThat(result.getTitle()).isEqualTo(POST_TITLE);
+        assertThat(result.getContent()).isEqualTo(POST_CONTENT);
     }
 
 }
