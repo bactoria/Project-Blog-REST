@@ -230,7 +230,7 @@ public class PostServiceTest {
     }
 
     @Test
-    public void 게시글을_정상적으로_수정한다() {
+    public void 특정_게시글을_정상적으로_수정한다() {
         // given
         final Long ID = 1L;
         final String TITLE = "제목";
@@ -250,7 +250,7 @@ public class PostServiceTest {
     }
 
     @Test
-    public void 게시글을_정상적으로_삭제한다() {
+    public void 특정_게시글을_정상적으로_삭제한다() {
         // given
         final Long ID = 1L;
 

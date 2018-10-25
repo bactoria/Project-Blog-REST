@@ -49,14 +49,14 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void 인증하지않은_사용자가_게시글_추가한다() throws Exception {
+    public void 인증하지않은_사용자가_게시글_추가하면_401_Unauthorized() throws Exception {
         mockMvc.perform(post("/api/posts"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser
-    public void 인증한_사용자가_게시글_추가한다() throws Exception {
+    public void 인증한_사용자가_게시글_추가하면_정상적으로_동작한다() throws Exception {
 
         // given
         Category category = Category.builder().name(CATEGORY_NAME).build();
@@ -142,16 +142,48 @@ public class AdminControllerTest {
     @Test
     public void 인증하지_않은_사용자가_카테고리_삭제하면_401_Unauthorized() throws Exception {
 
-        //then
-        mockMvc.perform(delete("/api/categories"))
+        // when
+        mockMvc.perform(delete("/api/categories/" + "1")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+
+                // then
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    public void 인증한_사용자가_카테고리_삭제하면_200_isOK() throws Exception {
+
+        // given
+
+        // when
+        mockMvc.perform(delete("/api/categories/" + "1")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+
+                // then
+                .andExpect(status().isOk());
     }
 
     @Test
     public void 인증하지_않은_사용자가_게시글_삭제하면_401_Unauthorized() throws Exception {
 
-        //then
-        mockMvc.perform(delete("/api/posts"))
+        // when
+        mockMvc.perform(delete("/api/posts/" + "1")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+
+                // then
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    public void 인증한_사용자가_게시글_삭제하면_200_isOk() throws Exception {
+
+        // when
+        mockMvc.perform(delete("/api/posts/" + "1")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+
+                // then
+                .andExpect(status().isOk());
     }
 }
