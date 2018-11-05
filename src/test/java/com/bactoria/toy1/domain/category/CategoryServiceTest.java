@@ -4,12 +4,7 @@ import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,19 +13,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class CategoryServiceTest {
 
-    @Mock
     private CategoryRepository categoryRepositoryMock;
-
-    @InjectMocks
     private CategoryService categoryService;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        this.categoryRepositoryMock = Mockito.mock(CategoryRepository.class);
+        this.categoryService = new CategoryService(categoryRepositoryMock);
+    }
+
+    @Test
+    public void Mocking이_정상적으로_만들어졌다() {
+        assertThat(categoryRepositoryMock).isNotNull();
+        assertThat(categoryService).isNotNull();
     }
 
     @Test

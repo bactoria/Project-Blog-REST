@@ -3,13 +3,10 @@ package com.bactoria.toy1.domain.post;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mockito;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,17 +17,24 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class PostServiceTest {
 
-    @MockBean
     private PostRepository postRepositoryMock;
-
-    @Autowired
     private PostService postService;
 
     private Category category = Category.builder().name("카테고리").build();
+
+    @Before
+    public void setup() {
+        this.postRepositoryMock = Mockito.mock(PostRepository.class);
+        this.postService = new PostService(postRepositoryMock);
+    }
+
+    @Test
+    public void Mocking이_정상적으로_만들어졌다() {
+        assertThat(postRepositoryMock).isNotNull();
+        assertThat(postService).isNotNull();
+    }
 
     @Test
     public void test001_모든_게시글들을_불러온다() {
