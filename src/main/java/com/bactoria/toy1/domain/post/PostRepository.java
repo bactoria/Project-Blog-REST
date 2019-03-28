@@ -17,7 +17,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     //List<Post> findByCategoryId(Long categoryId);
     //List<Post> findByCategoryIdOrderByIdDesc(Long categoryId);
 
-    @Query (value = "select post.id, post.category, post.title, post.createdDate from Post post where post.category.id = ?1")
+    @Query (value = "select post.id, post.category, post.title, post.subTitle, post.createdDate from Post post where post.category.id = ?1")
     Page<Object[]> findByCategoryIdMin(Long categoryId, Pageable pabeable);
 
     @Query (value = "select post.id, post.category, post.title, post.subTitle, post.createdDate from Post post")
