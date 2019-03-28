@@ -14,20 +14,23 @@ import lombok.Setter;
 public class PostSaveRequestDto {
 
     private String title;
+    private String subTitle;
     private String content;
     private Category category;
 
     public Post toEntity() {
         return Post.builder()
-                    .title(title)
-                    .content(content)
-                    .category(category)
-                    .build();
+                .title(title)
+                .subTitle(subTitle)
+                .content(content)
+                .category(category)
+                .build();
     }
 
     @Builder
-    public PostSaveRequestDto(String title, String content, Category category) {
+    public PostSaveRequestDto(String title, String subTitle, String content, Category category) {
         this.title = title;
+        this.subTitle = subTitle;
         this.content = content;
         this.category = category;
     }
