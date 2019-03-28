@@ -185,16 +185,18 @@ public class PostRepositoryTest {
     }
 
     private Post getPost1() {
-        return new Post().builder()
+        return Post.builder()
                 .title("제목1")
+                .subTitle("부제목1")
                 .content("내용1")
                 .category(category)
                 .build();
     }
 
     private Post getPost2() {
-        return new Post().builder()
+        return Post.builder()
                 .title("제목2")
+                .subTitle("부제목2")
                 .content("내용2")
                 .category(category)
                 .build();
