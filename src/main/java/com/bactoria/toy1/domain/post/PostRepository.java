@@ -12,19 +12,11 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    //Name 기반 Method
+    @Query (value = "select post from Post post where post.category.id = ?1")
+    Page<Post> findByCategoryId(Long categoryId, Pageable pabeable);
 
-    //List<Post> findByCategoryId(Long categoryId);
-    //List<Post> findByCategoryIdOrderByIdDesc(Long categoryId);
-
-    @Query (value = "select post.id, post.category, post.title, post.subTitle, post.createdDate from Post post where post.category.id = ?1")
-    Page<Object[]> findByCategoryIdMin(Long categoryId, Pageable pabeable);
-
-    @Query (value = "select post.id, post.category, post.title, post.subTitle, post.createdDate from Post post")
-    Page<Object[]> findMin(Pageable pabeable);
-
-    @Query (value = "select post.id, post.category.id, post.title, post.createdDate from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
-    Page<Object[]> findBySearchData(String SearchData, Pageable pageable);
+    @Query (value = "select post from Post post where lower(post.title) like lower(concat('%',?1,'%'))")
+    Page<Post> findBySearchData(String SearchData, Pageable pageable);
 
     @Query (value = "select * from post order by id desc LIMIT 10", nativeQuery = true)
     List<Post> findInFive();

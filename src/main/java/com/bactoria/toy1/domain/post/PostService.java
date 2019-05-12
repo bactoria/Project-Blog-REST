@@ -1,23 +1,28 @@
 package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
+import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
 @Transactional
-@Service //나 스프링빈으로 등록시켜줘! (@Component를 가짐)
+@Service
 public class PostService {
 
     private PostRepository postRepository;
+    private ModelMapper modelMapper;
 
     public List<Post> resPosts() {
         return postRepository.findAll();
@@ -25,16 +30,19 @@ public class PostService {
 
     public Optional<Post> resPostsById(Long id) {return postRepository.findById(id); }
 
-    public Page<Object[]> resPostsByCategory(Long id, Pageable pageable) {
-        return postRepository.findByCategoryIdMin(id,pageable);
+    public Page<PostResponseDto> resPostsByCategory(Long id, Pageable pageable) {
+        return postRepository.findByCategoryId(id, pageable)
+                .map(post -> modelMapper.map(post, PostResponseDto.class));
     }
 
-    public Page<Object[]> resPostsMin(Pageable pageable) {
-        return postRepository.findMin(pageable);
+    public Page<PostMinResponseDto> resPostsMin(Pageable pageable) {
+        return postRepository.findAll(pageable)
+                .map(post -> modelMapper.map(post, PostMinResponseDto.class));
     }
 
-    public Page<Object[]> resPostBySearchData (String searchData, Pageable pageable) {
-        return postRepository.findBySearchData(searchData.trim(), pageable);
+    public Page<PostMinResponseDto> resPostBySearchData(String searchData, Pageable pageable) {
+        return postRepository.findBySearchData(searchData.trim(), pageable)
+                .map(post -> modelMapper.map(post, PostMinResponseDto.class));
     }
 
     public Post savePost (PostSaveRequestDto dto) {

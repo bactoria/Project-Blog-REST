@@ -2,11 +2,15 @@ package com.bactoria.toy1.controller;
 
 import com.bactoria.toy1.domain.post.Post;
 import com.bactoria.toy1.domain.post.PostService;
+import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -29,7 +33,7 @@ public class PostController {
     private final int PAGE_SIZE = 5;
 
     @GetMapping // @GetMapping == @GetMapping("") != @GetMapping("/")
-    public Page<Object[]> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
+    public Page<PostMinResponseDto> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
         LOGGER.info("GET  /api/posts");
         return postService.resPostsMin(pageable);
     }
@@ -60,7 +64,7 @@ public class PostController {
     }
 
     @GetMapping("/categories/{id}")
-    public Page<Object[]> resPostsByCategory(
+    public Page<PostResponseDto> resPostsByCategory(
             @PathVariable Long id,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
 
@@ -69,7 +73,7 @@ public class PostController {
     }
 
     @GetMapping("/search/{searchData}")
-    public Page<Object[]> resPostBySearchData(@PathVariable String searchData,
+    public Page<PostMinResponseDto> resPostBySearchData(@PathVariable String searchData,
                                               @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
         return postService.resPostBySearchData(searchData.trim(), pageable);
