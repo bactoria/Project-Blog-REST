@@ -2,6 +2,8 @@ package com.bactoria.toy1.controller;
 
 import com.bactoria.toy1.domain.post.Post;
 import com.bactoria.toy1.domain.post.PostService;
+import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +34,29 @@ public class PostController {
         return postService.resPostsMin(pageable);
     }
 
+    @PostMapping
+    public Post savePost(@RequestBody PostSaveRequestDto dto) {
+        LOGGER.info("POST  /api/posts");
+        return postService.savePost(dto);
+    }
+
     @GetMapping("/{id}")
     public Optional<Post> resPostById(@PathVariable Long id) {
 
         LOGGER.info("GET  /api/posts/" + id);
         return postService.resPostsById(id);
+    }
+
+    @PutMapping("/{id}")
+    public void modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto dto) {
+        LOGGER.info("PUT  /api/posts/" + id);
+        postService.modifyPost(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id) {
+        LOGGER.info("DELETE /api/posts/" + id);
+        postService.deletePost(id);
     }
 
     @GetMapping("/categories/{id}")
