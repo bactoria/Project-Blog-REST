@@ -1,6 +1,6 @@
 package com.bactoria.toy1.controller;
 
-import com.bactoria.toy1.domain.feed.FeedService;
+import com.bactoria.toy1.feed.FeedService;
 import com.rometools.rome.feed.rss.Channel;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
