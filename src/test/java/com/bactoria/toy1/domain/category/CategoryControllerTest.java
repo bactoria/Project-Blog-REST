@@ -1,11 +1,14 @@
 package com.bactoria.toy1.domain.category;
 
+import com.bactoria.toy1.config.AppConfig;
 import com.bactoria.toy1.config.WebSecurityConfig;
+import com.bactoria.toy1.domain.category.dto.CategoryResponseDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -21,19 +24,19 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-
-@WebMvcTest({CategoryController.class, WebSecurityConfig.class})
+@WebMvcTest({CategoryController.class, WebSecurityConfig.class, AppConfig.class})
 public class CategoryControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @MockBean
     private CategoryService categoryServiceMock;
@@ -75,7 +78,7 @@ public class CategoryControllerTest {
 
                 // then
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.name", is(CATEGORY_NAME)));
     }
 
@@ -89,25 +92,28 @@ public class CategoryControllerTest {
 
     @Test
     @WithMockUser
-    public void 인증한_사용자가_카테고리_추가하면_200_isOk() throws Exception {
+    public void 인증한_사용자가_카테고리_추가하면_201_Created() throws Exception {
 
         // given
+        final Long ID = 1L;
         final String CATEGORY_NAME = "카테고리";
         CategorySaveRequestDto dto = CategorySaveRequestDto.builder().name(CATEGORY_NAME).build();
-        Category category = Category.builder().name(CATEGORY_NAME).build();
-        given(categoryServiceMock.saveCategory(any(CategorySaveRequestDto.class))).willReturn(category);
+        Category category = Category.builder()
+                .id(ID)
+                .name(CATEGORY_NAME)
+                .build();
+        CategoryResponseDto responseDto = modelMapper.map(category, CategoryResponseDto.class);
+        given(categoryServiceMock.saveCategory(any(CategorySaveRequestDto.class))).willReturn(responseDto);
 
         // when
         mockMvc.perform(post("/api/categories")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(jsonStringFromObject(dto)))
 
                 // then
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.name", is(CATEGORY_NAME)));
+                .andExpect(status().isCreated())
+                .andExpect(header().exists("Location"));
     }
 
     private String jsonStringFromObject(Object object) throws JsonProcessingException {
@@ -128,7 +134,7 @@ public class CategoryControllerTest {
 
     @Test
     @WithMockUser
-    public void 인증한_사용자가_카테고리_삭제하면_200_isOK() throws Exception {
+    public void 인증한_사용자가_카테고리_삭제하면_204_NoContent() throws Exception {
         // given
         final int ID = 1;
 
@@ -137,7 +143,7 @@ public class CategoryControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8))
 
                 // then
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test

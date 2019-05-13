@@ -2,6 +2,7 @@ package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
+import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -221,26 +222,24 @@ public class PostServiceTest {
         final String POST_TITLE = "제목";
         final String POST_CONTENT = "내용";
 
-        PostSaveRequestDto postDto = PostSaveRequestDto.builder()
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
                 .title(POST_TITLE)
                 .content(POST_CONTENT)
                 .category(category)
                 .build();
 
-        given(postRepositoryMock.save(any(Post.class))).willReturn(postDto.toEntity());
+        Post savedPost = Post.builder()
+                .title(POST_TITLE)
+                .content(POST_CONTENT)
+                .category(category)
+                .build();
+
+        given(postRepositoryMock.save(any(Post.class))).willReturn(savedPost);
 
         // when
-        Exception exception = null;
-        Post result = null;
-
-        try {
-            result = postService.savePost(postDto);
-        } catch (Exception e) {
-            exception = e;
-        }
+        PostResponseDto result = postService.savePost(requestDto);
 
         // then
-        assertThat(exception).isNull();
         assertThat(result).isNotNull();
         assertThat(result.getTitle()).isEqualTo(POST_TITLE);
         assertThat(result.getContent()).isEqualTo(POST_CONTENT);

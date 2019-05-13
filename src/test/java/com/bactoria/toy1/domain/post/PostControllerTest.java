@@ -1,5 +1,6 @@
 package com.bactoria.toy1.domain.post;
 
+import com.bactoria.toy1.config.AppConfig;
 import com.bactoria.toy1.config.WebSecurityConfig;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -39,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest({WebSecurityConfig.class, PostController.class})
+@WebMvcTest({WebSecurityConfig.class, PostController.class, AppConfig.class})
 public class PostControllerTest {
 
     /* issue : https://github.com/spring-projects/spring-boot/issues/12938 */
@@ -55,6 +57,8 @@ public class PostControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     @MockBean
     private PostService postServiceMock;
@@ -243,7 +247,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser
-    public void 인증한_사용자가_게시글_추가하면_정상적으로_동작한다() throws Exception {
+    public void 인증한_사용자가_게시글_추가하면_201_Created() throws Exception {
 
         // given
         final String POST_TITLE = "제목";
@@ -253,7 +257,10 @@ public class PostControllerTest {
         Category category = Category.builder().name(CATEGORY_NAME).build();
         PostSaveRequestDto dto = PostSaveRequestDto.builder().content(POST_CONTENT).title(POST_TITLE).category(category).build();
 
-        given(postServiceMock.savePost(any(PostSaveRequestDto.class))).willReturn(Post.builder().category(category).title("제목").content("내용").build());
+        Post post = Post.builder().category(category).title("제목").content("내용").build();
+        PostResponseDto responseDto = modelMapper.map(post, PostResponseDto.class);
+
+        given(postServiceMock.savePost(any(PostSaveRequestDto.class))).willReturn(responseDto);
 
         // when
         mockMvc.perform(post("/api/posts")
@@ -262,11 +269,7 @@ public class PostControllerTest {
                 .content(jsonStringFromObject(dto)))
 
                 // then
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.title", is(POST_TITLE)))
-                .andExpect(jsonPath("$.content", is(POST_CONTENT)))
-                .andExpect(jsonPath("$.category.name", is(CATEGORY_NAME)));
+                .andExpect(status().isCreated());
     }
 
     private String jsonStringFromObject(Object object) throws JsonProcessingException {
@@ -282,7 +285,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser
-    public void 인증한_사용자가_게시글_변경하면_200_isOk() throws Exception {
+    public void 인증한_사용자가_게시글_변경하면_204_NoContent() throws Exception {
 
         // given
         final String CATEGORY_NAME = "카테고오리";
@@ -299,12 +302,12 @@ public class PostControllerTest {
                 .content(jsonStringFromObject(dto)))
 
                 // then
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
     @WithMockUser
-    public void 인증한_사용자가_게시글_삭제하면_200_isOk() throws Exception {
+    public void 인증한_사용자가_게시글_삭제하면_204_NoContent() throws Exception {
         // given
         final int ID = 1;
 
@@ -313,6 +316,6 @@ public class PostControllerTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8))
 
                 // then
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

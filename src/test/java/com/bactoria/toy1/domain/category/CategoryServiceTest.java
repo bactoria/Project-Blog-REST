@@ -1,6 +1,7 @@
 package com.bactoria.toy1.domain.category;
 
 import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategoryResponseDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ public class CategoryServiceTest {
     private CategoryRepository categoryRepositoryMock;
     private CategoryService categoryService;
     private ModelMapper modelMapper;
+
     @Before
     public void setup() {
         this.categoryRepositoryMock = Mockito.mock(CategoryRepository.class);
@@ -77,12 +79,19 @@ public class CategoryServiceTest {
         // given
         final String CATEGORY_NAME = "카테고리";
 
-        CategorySaveRequestDto dto = CategorySaveRequestDto.builder()
+        CategorySaveRequestDto requestDto = CategorySaveRequestDto.builder()
                 .name(CATEGORY_NAME)
                 .build();
 
+        Category category = Category.builder()
+                .id(1L)
+                .name(CATEGORY_NAME)
+                .build();
+
+        given(categoryRepositoryMock.save(any(Category.class))).willReturn(category);
+
         // when
-        Category result = categoryService.saveCategory(dto);
+        CategoryResponseDto result = categoryService.saveCategory(requestDto);
 
         // then
         assertThat(result.getName()).isEqualTo(CATEGORY_NAME);
