@@ -45,8 +45,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Post> resPostById(@PathVariable Long id) {
-
+    public PostResponseDto resPostById(@PathVariable Long id) {
         LOGGER.info("GET  /api/posts/" + id);
         return postService.resPostsById(id);
     }
@@ -64,7 +63,7 @@ public class PostController {
     }
 
     @GetMapping("/categories/{id}")
-    public Page<PostResponseDto> resPostsByCategory(
+    public Page<PostMinResponseDto> resPostsByCategory(
             @PathVariable Long id,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
 

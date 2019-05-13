@@ -28,11 +28,15 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Optional<Post> resPostsById(Long id) {return postRepository.findById(id); }
+    public PostResponseDto resPostsById(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        return modelMapper.map(post, PostResponseDto.class);
+    }
 
-    public Page<PostResponseDto> resPostsByCategory(Long id, Pageable pageable) {
+    public Page<PostMinResponseDto> resPostsByCategory(Long id, Pageable pageable) {
         return postRepository.findByCategoryId(id, pageable)
-                .map(post -> modelMapper.map(post, PostResponseDto.class));
+                .map(post -> modelMapper.map(post, PostMinResponseDto.class));
     }
 
     public Page<PostMinResponseDto> resPostsMin(Pageable pageable) {
