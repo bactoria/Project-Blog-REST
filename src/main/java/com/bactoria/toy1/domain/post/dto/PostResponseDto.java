@@ -13,5 +13,5 @@ public class PostResponseDto {
     private String title;
     private String subTitle;
     private String content;
-
+    private String createdDate;
 }

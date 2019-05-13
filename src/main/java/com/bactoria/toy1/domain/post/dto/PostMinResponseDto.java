@@ -13,5 +13,5 @@ public class PostMinResponseDto {
     private Category category;
     private String title;
     private String subTitle;
-
+    private String createdDate;
 }
