@@ -21,7 +21,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query (value = "select * from post order by id desc LIMIT 10", nativeQuery = true)
     List<Post> findInFive();
 
-    //객체로 받는게 이쓸까? title, content, category를 한번에..
     @Modifying(clearAutomatically = true)
     @Query(value = "update Post p set p.title = ?2, p.content = ?3, p.category = ?4 where p.id = ?1")
     void modifyPost(Long id, String title, String content, Category category);

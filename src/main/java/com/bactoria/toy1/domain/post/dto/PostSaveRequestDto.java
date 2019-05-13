@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//롬복 어노테이션
-@Getter
-@Setter
+@Setter @Getter
 @NoArgsConstructor
 public class PostSaveRequestDto {
 

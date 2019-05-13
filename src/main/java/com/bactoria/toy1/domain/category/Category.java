@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED) //lombok
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Category {
@@ -16,7 +16,7 @@ public class Category {
     @GeneratedValue
     private Long id;
 
-    @Column(length = 30, nullable = false, unique = true) //javax.persistence
+    @Column(length = 30, nullable = false, unique = true)
     private String name;
 
     @Builder

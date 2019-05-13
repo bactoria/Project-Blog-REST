@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Transactional
@@ -49,9 +48,8 @@ public class PostService {
                 .map(post -> modelMapper.map(post, PostMinResponseDto.class));
     }
 
-    public Post savePost (PostSaveRequestDto dto) {
+    public Post savePost(PostSaveRequestDto dto) {
 
-        //예외 처리
         String title = dto.getTitle();
         if (title == null || title.trim().isEmpty()) throw new IllegalArgumentException();
 
@@ -59,21 +57,20 @@ public class PostService {
         if (content == null || content.trim().isEmpty()) throw new IllegalArgumentException();
 
         Category category = dto.getCategory();
-        if (category == null ) throw new IllegalArgumentException();
+        if (category == null) throw new IllegalArgumentException();
 
         //
         return postRepository.save(dto.toEntity());
     }
 
 
-    public void modifyPost (Long id, PostModifyRequestDto dto) {
-        postRepository.modifyPost(id,dto.getTitle(),dto.getContent(),dto.getCategory());
+    public void modifyPost(Long id, PostModifyRequestDto dto) {
+        postRepository.modifyPost(id, dto.getTitle(), dto.getContent(), dto.getCategory());
     }
 
-    public void deletePost (Long id) {
+    public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
-
 
 }
 
