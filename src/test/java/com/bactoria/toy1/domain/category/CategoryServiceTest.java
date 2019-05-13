@@ -5,9 +5,11 @@ import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -17,11 +19,12 @@ public class CategoryServiceTest {
 
     private CategoryRepository categoryRepositoryMock;
     private CategoryService categoryService;
-
+    private ModelMapper modelMapper;
     @Before
     public void setup() {
         this.categoryRepositoryMock = Mockito.mock(CategoryRepository.class);
-        this.categoryService = new CategoryService(categoryRepositoryMock);
+        this.modelMapper = new ModelMapper();
+        this.categoryService = new CategoryService(categoryRepositoryMock, modelMapper);
     }
 
     @Test
@@ -100,17 +103,20 @@ public class CategoryServiceTest {
     @Test
     public void 특정_카테고리를_정상적으로_수정한다() {
         // given
-        final String CATEGORY_NAME_MOD = "카테고리_수정";
         final Long CATEGORY_ID = 1L;
+        final String CATEGORY_NAME_MOD = "카테고리_수정";
         CategoryModifyRequestDto dto = CategoryModifyRequestDto.builder()
                 .name(CATEGORY_NAME_MOD)
                 .build();
+
+        Category category = Category.builder().name(CATEGORY_NAME_MOD).build();
+        given(categoryRepositoryMock.findById(CATEGORY_ID)).willReturn(Optional.of(category));
 
         // when
         categoryService.modifyCategory(CATEGORY_ID, dto);
 
         // then
-        verify(categoryRepositoryMock).modifyCategory(CATEGORY_ID, CATEGORY_NAME_MOD);
+        verify(categoryRepositoryMock, times(1)).save(any(Category.class));
     }
 
 }

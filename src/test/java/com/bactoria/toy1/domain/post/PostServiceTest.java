@@ -253,17 +253,21 @@ public class PostServiceTest {
         final String TITLE = "제목";
         final String CONTENT = "내용";
 
+        Post post = Post.builder().title("Old 제목").build();
+
         final PostModifyRequestDto DTO = PostModifyRequestDto.builder()
                 .title(TITLE)
                 .content(CONTENT)
                 .category(category)
                 .build();
 
+        given(postRepositoryMock.findById(ID)).willReturn(Optional.of(post));
+
         // when
         postService.modifyPost(ID, DTO);
 
         // then
-        verify(postRepositoryMock).modifyPost(ID, TITLE, CONTENT, category);
+        verify(postRepositoryMock, times(1)).save(any(Post.class));
     }
 
     @Test

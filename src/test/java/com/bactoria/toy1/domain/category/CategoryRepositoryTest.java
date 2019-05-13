@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,8 +73,13 @@ public class CategoryRepositoryTest {
         final String CATEGORY_NAME_NEW = "새로운 카테고리";
         testEntityManager.persist(category);
 
+        Category savedCategory = categoryRepository.findById(category.getId())
+                .orElseThrow(EntityExistsException::new);
+
+        savedCategory.setName(CATEGORY_NAME_NEW);
+
         //when
-        categoryRepository.modifyCategory(category.getId(), CATEGORY_NAME_NEW);
+        categoryRepository.save(savedCategory);
 
         //then
         assertThat(categoryRepository.getOne(category.getId()).getName()).isEqualTo(CATEGORY_NAME_NEW);

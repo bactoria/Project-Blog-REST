@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityExistsException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -115,9 +116,12 @@ public class PostRepositoryTest {
 
         Post post = getPost("제목", "부제", "내용", category);
         testEntityManager.persist(post);
+        Post savedPost = postRepository.findById(post.getId())
+                .orElseThrow(EntityExistsException::new);
+        savedPost.setTitle(POST_TITLE_NEW);
 
         // when
-        postRepository.modifyPost(post.getId(), POST_TITLE_NEW, post.getContent(), post.getCategory());
+        postRepository.save(savedPost);
 
         // then
         assertThat(postRepository.getOne(post.getId()).getTitle()).isEqualTo(POST_TITLE_NEW);
@@ -131,9 +135,12 @@ public class PostRepositoryTest {
 
         Post post = getPost("제목", "부제", "내용", category);
         testEntityManager.persist(post);
+        Post savedPost = postRepository.findById(post.getId())
+                .orElseThrow(EntityExistsException::new);
+        savedPost.setContent(POST_CONTENT_NEW);
 
         // when
-        postRepository.modifyPost(post.getId(), post.getTitle(), POST_CONTENT_NEW, post.getCategory());
+        postRepository.save(savedPost);
 
         // then
         assertThat(postRepository.getOne(post.getId()).getContent()).isEqualTo(POST_CONTENT_NEW);
