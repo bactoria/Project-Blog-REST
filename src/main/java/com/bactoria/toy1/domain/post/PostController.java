@@ -1,24 +1,17 @@
-package com.bactoria.toy1.controller;
+package com.bactoria.toy1.domain.post;
 
-import com.bactoria.toy1.domain.post.Post;
-import com.bactoria.toy1.domain.post.PostService;
 import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
 import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor

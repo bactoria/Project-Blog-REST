@@ -1,7 +1,5 @@
-package com.bactoria.toy1.controller;
+package com.bactoria.toy1.domain.category;
 
-import com.bactoria.toy1.domain.category.Category;
-import com.bactoria.toy1.domain.category.CategoryService;
 import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import lombok.AllArgsConstructor;

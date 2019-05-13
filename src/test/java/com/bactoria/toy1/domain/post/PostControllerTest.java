@@ -1,8 +1,9 @@
-package com.bactoria.toy1.controller;
+package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.configuration.WebSecurityConfig;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.Post;
+import com.bactoria.toy1.domain.post.PostController;
 import com.bactoria.toy1.domain.post.PostService;
 import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostResponseDto;
