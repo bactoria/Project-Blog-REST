@@ -1,14 +1,11 @@
 package com.bactoria.toy1.domain.category;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@Setter @Getter
 @Entity
 public class Category {
 

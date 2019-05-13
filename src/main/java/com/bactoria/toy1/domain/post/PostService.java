@@ -66,7 +66,10 @@ public class PostService {
 
 
     public void modifyPost(Long id, PostModifyRequestDto dto) {
-        postRepository.modifyPost(id, dto.getTitle(), dto.getContent(), dto.getCategory());
+        Post savedPost = postRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        modelMapper.map(dto, savedPost);
+        postRepository.save(savedPost);
     }
 
     public void deletePost(Long id) {

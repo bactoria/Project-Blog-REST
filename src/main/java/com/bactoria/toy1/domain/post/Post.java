@@ -2,15 +2,12 @@ package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.domain.BaseTimeEntity;
 import com.bactoria.toy1.domain.category.Category;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@Setter @Getter
 @Entity
 public class Post extends BaseTimeEntity {
 

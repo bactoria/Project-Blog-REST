@@ -20,8 +20,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query (value = "select * from post order by id desc LIMIT 10", nativeQuery = true)
     List<Post> findInFive();
-
-    @Modifying(clearAutomatically = true)
-    @Query(value = "update Post p set p.title = ?2, p.content = ?3, p.category = ?4 where p.id = ?1")
-    void modifyPost(Long id, String title, String content, Category category);
 }
