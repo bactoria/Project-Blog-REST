@@ -1,8 +1,6 @@
 package com.bactoria.toy1.feed;
 
-import com.bactoria.toy1.configuration.WebSecurityConfig;
-import com.bactoria.toy1.feed.FeedController;
-import com.bactoria.toy1.feed.FeedService;
+import com.bactoria.toy1.config.WebSecurityConfig;
 import com.rometools.rome.feed.rss.Channel;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.bactoria.toy1.configuration;
+package com.bactoria.toy1.config;
 
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;

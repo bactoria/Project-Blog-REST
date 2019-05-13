@@ -1,6 +1,6 @@
 package com.bactoria.toy1.domain.post;
 
-import com.bactoria.toy1.configuration.JpaAuditConfig;
+import com.bactoria.toy1.config.JpaAuditConfig;
 import com.bactoria.toy1.domain.category.Category;
 import org.junit.After;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.bactoria.toy1.configuration;
+package com.bactoria.toy1.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
