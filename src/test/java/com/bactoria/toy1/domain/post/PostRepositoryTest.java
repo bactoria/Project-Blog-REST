@@ -55,22 +55,32 @@ public class PostRepositoryTest {
     public void 게시글을_저장하면_정상적으로_저장된다() {
 
         // given
+        Post post = getPost("제목", "부제", "내용", category);
 
         // when
-        postRepository.save(getPost1());
+        postRepository.save(post);
 
         // then
         assertThat(postRepository.findAll()).isNotEmpty();
+    }
+
+    private Post getPost(String title, String subTitle, String content, Category category) {
+        return Post.builder()
+                .title(title)
+                .subTitle(subTitle)
+                .content(content)
+                .category(category)
+                .build();
     }
 
     @Test
     public void 모든_게시글을_불러온다() {
 
         // given
-        Post post1 = getPost1();
+        Post post1 = getPost("제목1", "부제1", "내용1", category);
         testEntityManager.persist(post1);
 
-        Post post2 = getPost2();
+        Post post2 = getPost("제목2", "부제2", "내용2", category);
         testEntityManager.persist(post2);
 
         // when
@@ -85,7 +95,7 @@ public class PostRepositoryTest {
     public void 게시글을_저장하면_등록시간과_수정시간이_같이_저장된다() {
 
         // given
-        Post post = getPost1();
+        Post post = getPost("제목", "부제", "내용", category);
         LocalDateTime now = LocalDateTime.now();
 
         // when
@@ -101,9 +111,10 @@ public class PostRepositoryTest {
     public void 특정_게시글의_제목을_수정하면_정상적으로_수정된다() {
 
         // given
-        Post post = getPost1();
-        testEntityManager.persist(post);
         final String POST_TITLE_NEW = "새로운 제목";
+
+        Post post = getPost("제목", "부제", "내용", category);
+        testEntityManager.persist(post);
 
         // when
         postRepository.modifyPost(post.getId(), POST_TITLE_NEW, post.getContent(), post.getCategory());
@@ -116,9 +127,10 @@ public class PostRepositoryTest {
     public void 특정_게시글의_내용을_수정하면_정상적으로_수정된다() {
 
         // given
-        Post post = getPost1();
-        testEntityManager.persist(post);
         final String POST_CONTENT_NEW = "새로운 내용";
+
+        Post post = getPost("제목", "부제", "내용", category);
+        testEntityManager.persist(post);
 
         // when
         postRepository.modifyPost(post.getId(), post.getTitle(), POST_CONTENT_NEW, post.getCategory());
@@ -145,16 +157,16 @@ public class PostRepositoryTest {
     public void 게시글들_중_제목이_포함되지_않은_검색어로_검색하면_게시글을_불러오지_않는다() {
 
         // given
-        Post post1 = getPost1();
+        Post post1 = getPost("제목1", "부제1", "내용1", category);
         testEntityManager.persist(post1);
 
-        Post post2 = getPost2();
+        Post post2 = getPost("제목2", "부제2", "내용2", category);
         testEntityManager.persist(post2);
 
-        final String SEARCH_DATA = "목3";
+        final String SEARCH_DATA = "제목3";
 
         // when
-        Page<Object[]> page = postRepository.findBySearchData(SEARCH_DATA, Pageable.unpaged());
+        Page<Post> page = postRepository.findBySearchData(SEARCH_DATA, Pageable.unpaged());
 
         // then
         assertThat(page.getContent()).isEmpty();
@@ -162,44 +174,26 @@ public class PostRepositoryTest {
 
     @Test
     public void 게시글들_중_제목이_포함된_검색어로_검색하면_정상적으로_불러온다() {
-
         // given
-        Post post1 = getPost1(); // Title : 제목1
-        testEntityManager.persist(post1);
-
-        Post post2 = getPost2(); // Title : 제목2
-        testEntityManager.persist(post2);
-
+        final String TITLE = "제목1";
         final String SEARCH_DATA = "목1";
 
+        Post post1 = getPost(TITLE, "부제1", "내용1", category);
+        testEntityManager.persist(post1);
+
+        Post post2 = getPost("제목2", "부제2", "내용2", category);
+        testEntityManager.persist(post2);
+
         // when
-        Page<Object[]> page = postRepository.findBySearchData(SEARCH_DATA, Pageable.unpaged());
+        Page<Post> page = postRepository.findBySearchData(SEARCH_DATA, Pageable.unpaged());
 
         // then
         assertThat(page.getContent()).hasSize(1);
+        assertThat(page.getContent().get(0).getTitle()).isEqualTo(TITLE);
     }
 
     @After
     public void cleanup() {
         postRepository.deleteAll();
     }
-
-    private Post getPost1() {
-        return Post.builder()
-                .title("제목1")
-                .subTitle("부제목1")
-                .content("내용1")
-                .category(category)
-                .build();
-    }
-
-    private Post getPost2() {
-        return Post.builder()
-                .title("제목2")
-                .subTitle("부제목2")
-                .content("내용2")
-                .category(category)
-                .build();
-    }
-
 }

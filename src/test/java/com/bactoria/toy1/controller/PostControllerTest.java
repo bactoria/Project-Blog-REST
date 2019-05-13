@@ -4,6 +4,8 @@ import com.bactoria.toy1.configuration.WebSecurityConfig;
 import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.Post;
 import com.bactoria.toy1.domain.post.PostService;
+import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
+import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,9 +29,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
@@ -55,25 +57,43 @@ public class PostControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @MockBean
     private PostService postServiceMock;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-
     @Test
-    public void test001_전체_게시글들을_불러온다() throws Exception {
+    public void 게시글들의_제목과_부제목을_불러온다() throws Exception {
 
         // given
+        final String TITLE1 = "제목1";
+        final String SUB_TITLE1 = "# 1";
 
-        // regacy ?
-        List<Object[]> postList = Arrays.asList(
-                new Object[]{1, 2},
-                new Object[]{3, 4}
-        );
+        final String TITLE2 = "제목2";
+        final String SUB_TITLE2 = "# 2";
 
-        Page<Object[]> postPage = new PageImpl<>(postList);
+        final long CATEGORY_ID = 1L;
+        final String CATEGORY_NAME = "카테고리1";
+        final Category category = getCategory(CATEGORY_ID, CATEGORY_NAME);
+
+        PostMinResponseDto dto1 = new PostMinResponseDto();
+        dto1.setId(1L);
+        dto1.setCategory(category);
+        dto1.setTitle(TITLE1);
+        dto1.setSubTitle(SUB_TITLE1);
+
+        PostMinResponseDto dto2 = new PostMinResponseDto();
+        dto2.setId(2L);
+        dto2.setCategory(category);
+        dto2.setTitle(TITLE2);
+        dto2.setSubTitle(SUB_TITLE2);
+
+        Page<PostMinResponseDto> postPage = new PageImpl<>(Arrays.asList(
+                dto1, dto2
+        ));
+
         given(postServiceMock.resPostsMin(any())).willReturn(postPage);
 
         // when
@@ -82,16 +102,36 @@ public class PostControllerTest {
 
                 // then
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0][0]", is(1)))
-                .andExpect(jsonPath("$.content[1][1]", is(4)));
+                .andExpect(jsonPath("$.content[0].title", is(TITLE1)))
+                .andExpect(jsonPath("$.content[0].subTitle", is(SUB_TITLE1)))
+                .andExpect(jsonPath("$.content[0].category.name", is(CATEGORY_NAME)))
+                .andExpect(jsonPath("$.content[1].title", is(TITLE2)))
+                .andExpect(jsonPath("$.content[1].subTitle", is(SUB_TITLE2)))
+                .andExpect(jsonPath("$.content[1].category.name", is(CATEGORY_NAME)));
+    }
+
+    private Category getCategory(long id, String name) throws Exception {
+        final Category category = Category.builder().name(name).build();
+        Field field = category.getClass().getDeclaredField("id");
+        field.setAccessible(true);
+        field.set(category, id);
+
+        return category;
     }
 
     @Test
-    public void test002_특정_게시글을_불러온다() throws Exception {
+    public void 특정_게시글을_불러온다() throws Exception {
 
-        //given
-        Post post = Post.builder().category(Category.builder().name("카테고리1").build()).content("내용").title("제목").build();
-        given(postServiceMock.resPostsById(anyLong())).willReturn(Optional.of(post));
+        // given
+        final String TITLE = "제목";
+        final String CONTENT = "내용";
+
+        PostResponseDto dto = new PostResponseDto();
+        dto.setCategory(Category.builder().name("카테고리1").build());
+        dto.setTitle(TITLE);
+        dto.setContent(CONTENT);
+
+        given(postServiceMock.resPostsById(anyLong())).willReturn(dto);
 
         // when
         mockMvc.perform(get("/api/posts/1")
@@ -100,20 +140,41 @@ public class PostControllerTest {
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.title", is("제목")))
-                .andExpect(jsonPath("$.content", is("내용")));
+                .andExpect(jsonPath("$.title", is(TITLE)))
+                .andExpect(jsonPath("$.content", is(CONTENT)));
 
     }
 
     @Test
-    public void test003_특정_카테고리의_게시글들을_불러온다() throws Exception {
+    public void 특정_카테고리의_게시글들의_제목과_부제목을_불러온다() throws Exception {
 
         // given
-        List<Object[]> postList = Arrays.asList(
-                new Object[]{1, 2},
-                new Object[]{3, 4}
-        );
-        Page<Object[]> postPage = new PageImpl<>(postList);
+        final String TITLE1 = "제목1";
+        final String SUB_TITLE1 = "# 1";
+
+        final String TITLE2 = "제목2";
+        final String SUB_TITLE2 = "# 2";
+
+        final long CATEGORY_ID = 1L;
+        final String CATEGORY_NAME = "카테고리1";
+        final Category category = getCategory(CATEGORY_ID, CATEGORY_NAME);
+
+        PostMinResponseDto dto1 = new PostMinResponseDto();
+        dto1.setId(1L);
+        dto1.setCategory(category);
+        dto1.setTitle(TITLE1);
+        dto1.setSubTitle(SUB_TITLE1);
+
+        PostMinResponseDto dto2 = new PostMinResponseDto();
+        dto2.setId(2L);
+        dto2.setCategory(category);
+        dto2.setTitle(TITLE2);
+        dto2.setSubTitle(SUB_TITLE2);
+
+        Page<PostMinResponseDto> postPage = new PageImpl<>(Arrays.asList(
+                dto1, dto2
+        ));
+
         given(postServiceMock.resPostsByCategory(anyLong(), any(Pageable.class))).willReturn(postPage);
 
         // when
@@ -122,36 +183,54 @@ public class PostControllerTest {
 
                 // then
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0][0]", is(1)))
-                .andExpect(jsonPath("$.content[1][1]", is(4)));
+                .andExpect(jsonPath("$.content[0].title", is(TITLE1)))
+                .andExpect(jsonPath("$.content[0].subTitle", is(SUB_TITLE1)))
+                .andExpect(jsonPath("$.content[0].category.name", is(CATEGORY_NAME)))
+                .andExpect(jsonPath("$.content[1].title", is(TITLE2)))
+                .andExpect(jsonPath("$.content[1].subTitle", is(SUB_TITLE2)))
+                .andExpect(jsonPath("$.content[1].category.name", is(CATEGORY_NAME)));
     }
 
     @Test
-    public void test004_게시글_제목을_검색하여_게시글들을_불러온다() throws Exception {
+    public void 한글_검색이_가능하다() throws Exception {
 
         // given
-        enableKoreanOnMockMvc();
-        List<Object[]> postList = Arrays.asList(
-                new Object[]{1, 2},
-                new Object[]{3, 4}
-        );
-        Page<Object[]> postPage = new PageImpl<>(postList);
+        final String SEARCH_DATA = "검색";
+
+        final String TITLE = "제목";
+        final String SUB_TITLE = "# 1";
+
+        final long CATEGORY_ID = 1L;
+        final String CATEGORY_NAME = "카테고리1";
+        final Category category = getCategory(CATEGORY_ID, CATEGORY_NAME);
+
+        PostMinResponseDto dto = new PostMinResponseDto();
+        dto.setId(1L);
+        dto.setCategory(category);
+        dto.setTitle(TITLE);
+        dto.setSubTitle(SUB_TITLE);
+
+        Page<PostMinResponseDto> postPage = new PageImpl<>(Arrays.asList(
+                dto
+        ));
+
         given(postServiceMock.resPostBySearchData(anyString(), isA(Pageable.class))).willReturn(postPage);
 
+        supportKoreanOnMockMvc();
+
         // when
-        mockMvc.perform(get("/api/posts/search/" + "한글테스트")
+        mockMvc.perform(get("/api/posts/search/" + SEARCH_DATA)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
 
                 // then
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.content[0][0]", is(1)))
-                .andExpect(jsonPath("$.content[1][1]", is(4)));
+                .andExpect(jsonPath("$.content[0].title", is(TITLE)));
     }
 
     // mockMvc 한글깨짐 해결
-    private void enableKoreanOnMockMvc() {
+    private void supportKoreanOnMockMvc() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
                 .alwaysDo(print())

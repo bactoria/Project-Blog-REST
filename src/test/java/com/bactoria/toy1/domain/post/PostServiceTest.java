@@ -6,10 +6,13 @@ import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,13 +24,14 @@ public class PostServiceTest {
 
     private PostRepository postRepositoryMock;
     private PostService postService;
+    private ModelMapper modelMapper = new ModelMapper();
 
     private Category category = Category.builder().name("카테고리").build();
 
     @Before
     public void setup() {
         this.postRepositoryMock = Mockito.mock(PostRepository.class);
-        this.postService = new PostService(postRepositoryMock);
+        this.postService = new PostService(postRepositoryMock, modelMapper);
     }
 
     @Test
@@ -54,10 +58,14 @@ public class PostServiceTest {
     }
 
     @Test
-    public void 특정_게시글을_정상적으로_불러온다() {
+    public void 특정_게시글을_정상적으로_불러온다() throws Exception {
 
         // given
         final Long ID = 1L;
+
+        given(postRepositoryMock.findById(ID)).willReturn(
+                Optional.of(Post.builder().title("제목1").build())
+        );
 
         // when
         postService.resPostsById(ID);
@@ -70,12 +78,17 @@ public class PostServiceTest {
     public void 게시글을_정상적으로_검색한다() {
         // given
         final String SEARCH_DATA = "검색데이터";
+        final Pageable pageable = Pageable.unpaged();
+
+        given(postRepositoryMock.findBySearchData(SEARCH_DATA, pageable)).willReturn(
+                Page.empty()
+        );
 
         // when
         postService.resPostBySearchData(SEARCH_DATA, Pageable.unpaged());
 
         // then
-        verify(postRepositoryMock).findBySearchData(SEARCH_DATA, Pageable.unpaged());
+        verify(postRepositoryMock).findBySearchData(SEARCH_DATA, pageable);
     }
 
     @Test
