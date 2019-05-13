@@ -3,7 +3,7 @@ package com.bactoria.toy1.feed;
 import com.bactoria.toy1.domain.post.Post;
 import com.bactoria.toy1.domain.post.PostRepository;
 import com.rometools.rome.feed.rss.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,11 +13,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class FeedService {
 
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
     private Date convertToDateViaSqlTimestamp(LocalDateTime dateToConvert) {
         return java.sql.Timestamp.valueOf(dateToConvert);

@@ -2,7 +2,7 @@ package com.bactoria.toy1.domain.category;
 
 import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/categories")
 public class CategoryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping // == GetMapping("") != GetMapping("/")
     public List<Category> resCategory() {

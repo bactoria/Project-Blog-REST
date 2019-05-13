@@ -4,7 +4,7 @@ import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
 import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -14,14 +14,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @CrossOrigin
 @RequestMapping("/api/posts")
 public class PostController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostController.class);
 
-    private PostService postService;
+    private final PostService postService;
 
     private final int PAGE_SIZE = 5;
 

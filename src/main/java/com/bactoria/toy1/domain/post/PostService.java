@@ -6,6 +6,7 @@ import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
 import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +16,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class PostService {
 
-    private PostRepository postRepository;
-    private ModelMapper modelMapper;
+    private final PostRepository postRepository;
+    private final ModelMapper modelMapper;
 
     public List<Post> resPosts() {
         return postRepository.findAll();

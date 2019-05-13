@@ -2,18 +2,18 @@ package com.bactoria.toy1.domain.category;
 
 import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class CategoryService {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<Category> resCategory() {
         return categoryRepository.findAll();
