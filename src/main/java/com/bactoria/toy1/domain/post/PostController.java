@@ -11,7 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,50 +29,61 @@ public class PostController {
 
     private final int PAGE_SIZE = 5;
 
-    @GetMapping // @GetMapping == @GetMapping("") != @GetMapping("/")
-    public Page<PostMinResponseDto> resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
-        LOGGER.info("GET  /api/posts");
-        return postService.resPostsMin(pageable);
+    @PostMapping
+    public ResponseEntity savePost(@RequestBody PostSaveRequestDto requestDto) {
+        LOGGER.info("POST  /api/posts");
+        PostResponseDto responseDto = postService.savePost(requestDto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/" + responseDto.getId())
+                .build().toUri();
+        return ResponseEntity.created(uri).build();
     }
 
-    @PostMapping
-    public Post savePost(@RequestBody PostSaveRequestDto dto) {
-        LOGGER.info("POST  /api/posts");
-        return postService.savePost(dto);
+    @GetMapping
+    public ResponseEntity resPost(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
+        LOGGER.info("GET  /api/posts");
+        Page<PostMinResponseDto> page = postService.resPostsMin(pageable);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
-    public PostResponseDto resPostById(@PathVariable Long id) {
+    public ResponseEntity resPostById(@PathVariable Long id) {
         LOGGER.info("GET  /api/posts/" + id);
-        return postService.resPostsById(id);
-    }
-
-    @PutMapping("/{id}")
-    public void modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto dto) {
-        LOGGER.info("PUT  /api/posts/" + id);
-        postService.modifyPost(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable Long id) {
-        LOGGER.info("DELETE /api/posts/" + id);
-        postService.deletePost(id);
+        PostResponseDto responseDto = postService.resPostsById(id);
+        return ResponseEntity.ok(responseDto);
     }
 
     @GetMapping("/categories/{id}")
-    public Page<PostMinResponseDto> resPostsByCategory(
+    public ResponseEntity resPostsByCategory(
             @PathVariable Long id,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
 
         LOGGER.info("GET  /api/posts/categories/" + id);
-        return postService.resPostsByCategory(id, pageable);
+        Page<PostMinResponseDto> page = postService.resPostsByCategory(id, pageable);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/search/{searchData}")
-    public Page<PostMinResponseDto> resPostBySearchData(@PathVariable String searchData,
-                                              @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
+    public ResponseEntity resPostBySearchData(@PathVariable String searchData,
+                                                        @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC, size = PAGE_SIZE) Pageable pageable) {
         LOGGER.info("GET  /api/search" + "  searchData : " + searchData);
-        return postService.resPostBySearchData(searchData.trim(), pageable);
+        Page<PostMinResponseDto> page = postService.resPostBySearchData(searchData.trim(), pageable);
+        return ResponseEntity.ok(page);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto requestDto) {
+        LOGGER.info("PUT  /api/posts/" + id);
+        postService.modifyPost(id, requestDto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deletePost(@PathVariable Long id) {
+        LOGGER.info("DELETE /api/posts/" + id);
+        postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

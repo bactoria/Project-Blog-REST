@@ -4,9 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter @Getter
 @Entity
+@Setter @Getter
+@Builder @NoArgsConstructor @AllArgsConstructor
 public class Category {
 
     @Id
@@ -15,10 +15,4 @@ public class Category {
 
     @Column(length = 30, nullable = false, unique = true)
     private String name;
-
-    @Builder
-    Category(String name) {
-        this.name = name;
-    }
-
 }

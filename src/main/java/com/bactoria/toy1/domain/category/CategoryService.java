@@ -1,6 +1,7 @@
 package com.bactoria.toy1.domain.category;
 
 import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
+import com.bactoria.toy1.domain.category.dto.CategoryResponseDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,10 +23,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category saveCategory(CategorySaveRequestDto dto) {
-        Category category = modelMapper.map(dto, Category.class);
-        categoryRepository.save(category);
-        return category;
+    public CategoryResponseDto saveCategory(CategorySaveRequestDto requestDto) {
+        Category category = modelMapper.map(requestDto, Category.class);
+        Category savedCategory = categoryRepository.save(category);
+        return modelMapper.map(savedCategory, CategoryResponseDto.class);
     }
 
     public void deleteCategory(Long id) {
@@ -36,11 +37,11 @@ public class CategoryService {
         return categoryRepository.findById(id).orElse(new Category());
     }
 
-    public void modifyCategory(Long id, CategoryModifyRequestDto dto) {
+    public void modifyCategory(Long id, CategoryModifyRequestDto requestDto) {
         Category savedCategory = categoryRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        modelMapper.map(dto, savedCategory);
+        modelMapper.map(requestDto, savedCategory);
         categoryRepository.save(savedCategory);
     }
 }

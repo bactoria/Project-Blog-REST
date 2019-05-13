@@ -5,7 +5,6 @@ import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostModifyRequestDto;
 import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -31,6 +30,7 @@ public class PostService {
     public PostResponseDto resPostsById(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
+
         return modelMapper.map(post, PostResponseDto.class);
     }
 
@@ -49,26 +49,28 @@ public class PostService {
                 .map(post -> modelMapper.map(post, PostMinResponseDto.class));
     }
 
-    public Post savePost(PostSaveRequestDto dto) {
+    public PostResponseDto savePost(PostSaveRequestDto requestDto) {
 
-        String title = dto.getTitle();
+        String title = requestDto.getTitle();
         if (title == null || title.trim().isEmpty()) throw new IllegalArgumentException();
 
-        String content = dto.getContent();
+        String content = requestDto.getContent();
         if (content == null || content.trim().isEmpty()) throw new IllegalArgumentException();
 
-        Category category = dto.getCategory();
+        Category category = requestDto.getCategory();
         if (category == null) throw new IllegalArgumentException();
 
-        //
-        return postRepository.save(dto.toEntity());
+        Post post = modelMapper.map(requestDto, Post.class);
+        Post savedPost = postRepository.save(post);
+        return modelMapper.map(savedPost, PostResponseDto.class);
     }
 
 
-    public void modifyPost(Long id, PostModifyRequestDto dto) {
+    public void modifyPost(Long id, PostModifyRequestDto requestDto) {
         Post savedPost = postRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-        modelMapper.map(dto, savedPost);
+
+        modelMapper.map(requestDto, savedPost);
         postRepository.save(savedPost);
     }
 

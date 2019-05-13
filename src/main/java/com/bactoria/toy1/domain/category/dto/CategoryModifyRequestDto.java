@@ -1,20 +1,10 @@
 package com.bactoria.toy1.domain.category.dto;
 
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Setter @Getter
+@Builder @NoArgsConstructor @AllArgsConstructor
 public class CategoryModifyRequestDto {
-
     private String name;
-
-    @Builder
-    public CategoryModifyRequestDto(String name) {
-        this.name = name;
-    }
 }

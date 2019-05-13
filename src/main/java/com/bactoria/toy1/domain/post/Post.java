@@ -6,9 +6,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Setter @Getter
 @Entity
+@Setter @Getter @ToString
+@Builder @NoArgsConstructor @AllArgsConstructor
 public class Post extends BaseTimeEntity {
 
     @Id
@@ -19,7 +19,7 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(length = 100, nullable = false) //javax.persistence
+    @Column(length = 100, nullable = false)
     private String title;
 
     @Column(length = 100)
@@ -27,18 +27,4 @@ public class Post extends BaseTimeEntity {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
-
-    @Builder
-    public Post(String title, String subTitle, String content, Category category) {
-        this.title = title;
-        this.subTitle = subTitle;
-        this.content = content;
-        this.category = category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-
-    }
-
 }
