@@ -7,6 +7,7 @@ import lombok.*;
 @Builder @NoArgsConstructor @AllArgsConstructor
 public class PostModifyRequestDto {
     private String title;
+    private String subTitle;
     private String content;
     private Category category;
 }
