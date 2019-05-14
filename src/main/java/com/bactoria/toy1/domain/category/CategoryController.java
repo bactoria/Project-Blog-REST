@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -25,8 +27,14 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity saveCategory(@RequestBody CategorySaveRequestDto dto) {
+    public ResponseEntity saveCategory(@Valid @RequestBody CategorySaveRequestDto dto,
+                                       Errors errors) {
         log.info("POST /api/categories");
+
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         CategoryResponseDto responseDto = categoryService.saveCategory(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -50,8 +58,15 @@ public class CategoryController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity ModifyCategory(@PathVariable Long id, @RequestBody CategoryModifyRequestDto dto) {
+    public ResponseEntity ModifyCategory(@PathVariable Long id,
+                                         @Valid @RequestBody CategoryModifyRequestDto dto,
+                                         Errors errors) {
         log.info("PUT  /api/categories/" + id);
+
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         categoryService.modifyCategory(id, dto);
         return ResponseEntity.noContent().build();
     }
