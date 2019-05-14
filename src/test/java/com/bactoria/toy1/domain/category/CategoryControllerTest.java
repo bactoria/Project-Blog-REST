@@ -145,15 +145,53 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void 인증하지_않은_사용자가_게시글_삭제하면_401_Unauthorized() throws Exception {
-        // given
-        final int ID = 1;
-
+    @WithMockUser
+    public void 카테고리_추가시_이름이_null이면_400_BadRequest() throws Exception {
         // when
-        mockMvc.perform(delete("/api/posts/" + ID)
+        mockMvc.perform(post("/api/categories")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
 
                 // then
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser
+    public void 카테고리_추가시_이름이_공백이면_400_BadRequest() throws Exception {
+        //given
+        final String NAME = " ";
+
+        CategorySaveRequestDto requestDto = CategorySaveRequestDto.builder()
+                .name(NAME)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/categories")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser
+    public void 카테고리_추가시_이름이_비어있으면_400_BadRequest() throws Exception {
+        //given
+        final String NAME = "";
+
+        CategorySaveRequestDto requestDto = CategorySaveRequestDto.builder()
+                .name(NAME)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/categories")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest());
     }
 }
