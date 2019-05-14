@@ -32,8 +32,14 @@ public class PostController {
     private final int PAGE_SIZE = 5;
 
     @PostMapping
-    public ResponseEntity savePost(@RequestBody PostSaveRequestDto requestDto) {
+    public ResponseEntity savePost(@Valid @RequestBody PostSaveRequestDto requestDto,
+                                   Errors errors) {
         log.info("POST  /api/posts");
+
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         PostResponseDto responseDto = postService.savePost(requestDto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -75,8 +81,14 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity modifyPost(@PathVariable Long id, @RequestBody PostModifyRequestDto requestDto) {
+    public ResponseEntity modifyPost(@Valid @PathVariable Long id, @RequestBody PostModifyRequestDto requestDto,
+                                     Errors errors) {
         log.info("PUT  /api/posts/" + id);
+
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         postService.modifyPost(id, requestDto);
         return ResponseEntity.noContent().build();
     }
