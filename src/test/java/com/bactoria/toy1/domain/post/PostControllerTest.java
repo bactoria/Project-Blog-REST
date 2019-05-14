@@ -6,7 +6,6 @@ import com.bactoria.toy1.domain.category.Category;
 import com.bactoria.toy1.domain.post.dto.PostMinResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostResponseDto;
 import com.bactoria.toy1.domain.post.dto.PostSaveRequestDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,6 +58,9 @@ public class PostControllerTest {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private PostService postServiceMock;
@@ -266,15 +268,10 @@ public class PostControllerTest {
         mockMvc.perform(post("/api/posts")
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonStringFromObject(dto)))
+                .content(objectMapper.writeValueAsString(dto)))
 
                 // then
                 .andExpect(status().isCreated());
-    }
-
-    private String jsonStringFromObject(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
     }
 
     @Test
@@ -299,7 +296,7 @@ public class PostControllerTest {
         mockMvc.perform(put("/api/posts/{id}", 1)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(jsonStringFromObject(dto)))
+                .content(objectMapper.writeValueAsString(dto)))
 
                 // then
                 .andExpect(status().isNoContent());

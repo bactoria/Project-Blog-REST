@@ -38,6 +38,9 @@ public class CategoryControllerTest {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private CategoryService categoryServiceMock;
 
@@ -108,17 +111,12 @@ public class CategoryControllerTest {
         // when
         mockMvc.perform(post("/api/categories")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(jsonStringFromObject(dto)))
+                .content(objectMapper.writeValueAsString(dto)))
 
                 // then
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
-    }
-
-    private String jsonStringFromObject(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
     }
 
     @Test
