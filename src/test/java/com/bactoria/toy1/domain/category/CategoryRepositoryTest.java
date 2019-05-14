@@ -1,7 +1,5 @@
 package com.bactoria.toy1.domain.category;
 
-import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,10 +81,5 @@ public class CategoryRepositoryTest {
 
         //then
         assertThat(categoryRepository.getOne(category.getId()).getName()).isEqualTo(CATEGORY_NAME_NEW);
-    }
-
-    @After
-    public void 모든_카테고리_삭제한다() {
-        categoryRepository.deleteAll();
     }
 }
