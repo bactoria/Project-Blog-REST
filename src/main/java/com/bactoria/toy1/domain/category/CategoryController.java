@@ -16,7 +16,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/categories")
+@RequestMapping(value = "/api/categories",
+                            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CategoryController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);

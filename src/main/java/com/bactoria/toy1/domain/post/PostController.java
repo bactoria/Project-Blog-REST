@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,7 +21,8 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
-@RequestMapping("/api/posts")
+@RequestMapping(value = "/api/posts",
+                            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class PostController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostController.class);
