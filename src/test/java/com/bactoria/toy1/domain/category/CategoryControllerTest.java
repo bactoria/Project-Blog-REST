@@ -2,9 +2,9 @@ package com.bactoria.toy1.domain.category;
 
 import com.bactoria.toy1.config.AppConfig;
 import com.bactoria.toy1.config.WebSecurityConfig;
+import com.bactoria.toy1.domain.category.dto.CategoryModifyRequestDto;
 import com.bactoria.toy1.domain.category.dto.CategoryResponseDto;
 import com.bactoria.toy1.domain.category.dto.CategorySaveRequestDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -147,12 +147,20 @@ public class CategoryControllerTest {
     @Test
     @WithMockUser
     public void 카테고리_추가시_이름이_null이면_400_BadRequest() throws Exception {
+
+        // given
+        CategorySaveRequestDto requestDto = CategorySaveRequestDto.builder().build();
+
         // when
         mockMvc.perform(post("/api/categories")
-                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
 
                 // then
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("name")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
     }
 
     @Test
@@ -172,7 +180,9 @@ public class CategoryControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
 
                 // then
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("name")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
     }
 
     @Test
@@ -192,6 +202,77 @@ public class CategoryControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
 
                 // then
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("name")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 카테고리_수정시_이름이_null이면_400_BadRequest() throws Exception {
+
+        // given
+        final int ID = 1;
+
+        CategoryModifyRequestDto requestDto = CategoryModifyRequestDto.builder().build();
+
+        // when
+        mockMvc.perform(put("/api/categories/" + ID)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("name")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 카테고리_수정시_이름이_비어있으면_400_BadRequest() throws Exception {
+
+        // given
+        final int ID = 1;
+        final String NAME = "";
+
+        CategoryModifyRequestDto requestDto = CategoryModifyRequestDto.builder()
+                .name(NAME)
+                .build();
+
+        // when
+        mockMvc.perform(put("/api/categories/" + ID)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("name")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 카테고리_수정시_이름이_공백이면_400_BadRequest() throws Exception {
+
+        // given
+        final int ID = 1;
+        final String NAME = " ";
+
+        CategoryModifyRequestDto requestDto = CategoryModifyRequestDto.builder()
+                .name(NAME)
+                .build();
+
+        // when
+        mockMvc.perform(put("/api/categories/" + ID)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("name")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
     }
 }
