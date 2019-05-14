@@ -315,4 +315,144 @@ public class PostControllerTest {
                 // then
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    @WithMockUser
+    public void 게시글_추가시_제목이_null이면_400_BadRequest() throws Exception {
+
+        // given
+        final String CONTENT = "내용";
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .content(CONTENT)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/posts")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("title")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 게시글_추가시_제목이_비어있으면_400_BadRequest() throws Exception {
+
+        // given
+        final String TITLE = "";
+        final String CONTENT = "내용";
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/posts")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("title")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 게시글_추가시_제목이_공백이면_400_BadRequest() throws Exception {
+
+        // given
+        final String TITLE = " ";
+        final String CONTENT = "내용";
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/posts")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("title")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 게시글_추가시_내용이_Null이면_400_BadRequest() throws Exception {
+
+        // given
+        final String TITLE = "제목";
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .title(TITLE)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/posts")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("content")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 게시글_추가시_내용이_비어있으면_400_BadRequest() throws Exception {
+
+        // given
+        final String TITLE = "제목";
+        final String CONTENT = "";
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/posts")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("content")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
+
+    @Test
+    @WithMockUser
+    public void 게시글_추가시_내용이_공백이면_400_BadRequest() throws Exception {
+
+        // given
+        final String TITLE = "제목";
+        final String CONTENT = " ";
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .build();
+
+        // when
+        mockMvc.perform(post("/api/posts")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(requestDto)))
+
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].field",is("content")))
+                .andExpect(jsonPath("$[0].code",is("NotBlank")));
+    }
 }
