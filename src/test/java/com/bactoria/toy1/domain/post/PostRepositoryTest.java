@@ -2,7 +2,6 @@ package com.bactoria.toy1.domain.post;
 
 import com.bactoria.toy1.config.JpaAuditConfig;
 import com.bactoria.toy1.domain.category.Category;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -199,8 +198,4 @@ public class PostRepositoryTest {
         assertThat(page.getContent().get(0).getTitle()).isEqualTo(TITLE);
     }
 
-    @After
-    public void cleanup() {
-        postRepository.deleteAll();
-    }
 }
