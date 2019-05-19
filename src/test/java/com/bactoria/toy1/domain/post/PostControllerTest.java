@@ -309,8 +309,7 @@ public class PostControllerTest {
         final int ID = 1;
 
         // when
-        mockMvc.perform(delete("/api/posts/" + ID)
-                .accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(delete("/api/posts/" + ID))
 
                 // then
                 .andExpect(status().isNoContent());

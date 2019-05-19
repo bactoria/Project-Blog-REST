@@ -56,7 +56,8 @@ public class CategoryControllerTest {
         given(categoryServiceMock.resCategory()).willReturn(categoryList);
 
         // when
-        mockMvc.perform(get("/api/categories"))
+        mockMvc.perform(get("/api/categories")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
 
                 // then
                 .andExpect(status().isOk())
@@ -77,6 +78,7 @@ public class CategoryControllerTest {
 
         // when
         mockMvc.perform(get("/api/categories/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
 
                 // then
@@ -137,8 +139,7 @@ public class CategoryControllerTest {
         final int ID = 1;
 
         // when
-        mockMvc.perform(delete("/api/categories/" + ID)
-                .accept(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(delete("/api/categories/" + ID))
 
                 // then
                 .andExpect(status().isNoContent());
