@@ -26,8 +26,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 @CrossOrigin
 @RequestMapping(value = "/api/posts",
-                            consumes = {MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE},
-                            produces = {MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
+                            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class PostController {
 
     private final PostService postService;

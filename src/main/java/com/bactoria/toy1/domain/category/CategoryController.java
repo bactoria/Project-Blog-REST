@@ -21,8 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/categories",
-                            consumes = {MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE},
-                            produces = {MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
+                            produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class CategoryController {
 
     private final CategoryService categoryService;
